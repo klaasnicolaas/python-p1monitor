@@ -11,7 +11,7 @@ import async_timeout
 from yarl import URL
 
 from .exceptions import P1MonitorConnectionError, P1MonitorError
-from .models import Status, SmartMeter, Settings
+from .models import SmartMeter, Settings, Phases
 
 
 @dataclass
@@ -73,11 +73,6 @@ class P1Monitor:
 
         return await response.json()
 
-    async def status(self) -> Status:
-        """Get device status information."""
-        data = await self._request("status", params={"json": "object"})
-        return Status.from_dict(data)
-
     async def smartmeter(self) -> SmartMeter:
         data = await self._request("smartmeter", params={"json": "object", "limit": 1})
         return SmartMeter.from_dict(data)
@@ -85,6 +80,10 @@ class P1Monitor:
     async def settings(self) -> Settings:
         data = await self._request("configuration", params={"json": "object"})
         return Settings.from_dict(data)
+
+    async def phases(self) -> Phases:
+        data = await self._request("status", params={"json": "object"})
+        return Phases.from_dict(data)
 
     async def close(self) -> None:
         """Close open client session."""

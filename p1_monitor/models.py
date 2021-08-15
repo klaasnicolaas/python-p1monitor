@@ -6,25 +6,6 @@ from typing import Any
 
 
 @dataclass
-class Status:
-    """Return Status object from the P1 Monitor API response.
-    Args:
-        data: The data from the P1 Monitor API.
-    Returns:
-        A Status object.
-    """
-
-    python_version: str
-    os_version: str
-
-    @staticmethod
-    def from_dict(data: dict[str, Any]) -> Status:
-        return Status(
-            python_version=data[24]["STATUS"],
-            os_version=data[21]["STATUS"],
-        )
-
-@dataclass
 class SmartMeter:
     """Return SmartMeter object from the P1 Monitor API response.
     Args:
@@ -32,7 +13,6 @@ class SmartMeter:
     Returns:
         A SmartMeter object.
     """
-
     gas_consumption: float | None
 
     power_consumption: int | None
@@ -64,23 +44,66 @@ class Settings:
     Returns:
         A Settings object.
     """
-    version: str | None
-
     gas_consumption_tariff: float | None
 
-    energy_consumption_tariff_high: float | None
-    energy_consumption_tariff_low: float | None
+    energy_consumption_high_tariff: float | None
+    energy_consumption_low_tariff: float | None
 
-    energy_production_tariff_high: float | None
-    energy_production_tariff_low: float | None
+    energy_production_high_tariff: float | None
+    energy_production_low_tariff: float | None
 
     @staticmethod
     def from_dict(data: dict[str, Any]) -> Settings:
         return Settings(
-            version=data[0]["PARAMETER"],
             gas_consumption_tariff=data[15]["PARAMETER"],
-            energy_consumption_tariff_low=data[1]["PARAMETER"],
-            energy_consumption_tariff_high=data[2]["PARAMETER"],
-            energy_production_tariff_low=data[3]["PARAMETER"],
-            energy_production_tariff_high=data[4]["PARAMETER"],
+            energy_consumption_low_tariff=data[1]["PARAMETER"],
+            energy_consumption_high_tariff=data[2]["PARAMETER"],
+            energy_production_low_tariff=data[3]["PARAMETER"],
+            energy_production_high_tariff=data[4]["PARAMETER"],
         )
+
+@dataclass
+class Phases:
+    """Return Phases object from the P1 Monitor API response.
+    Args:
+        data: The data from the P1 Monitor API.
+    Returns:
+        A Phases object.
+    """
+    voltage_phase_l1: float | None
+    voltage_phase_l2: float | None
+    voltage_phase_l3: float | None
+
+    current_phase_l1: float | None
+    current_phase_l2: float | None
+    current_phase_l3: float | None
+
+    power_consumed_phase_l1: int | None
+    power_consumed_phase_l2: int | None
+    power_consumed_phase_l3: int | None
+
+    power_produced_phase_l1: int | None
+    power_produced_phase_l2: int | None
+    power_produced_phase_l3: int | None
+
+    @staticmethod
+    def from_dict(data: dict[str, Any]) -> Phases:
+        return Phases(
+            voltage_phase_l1=data[102]["STATUS"],
+            voltage_phase_l2=data[103]["STATUS"],
+            voltage_phase_l3=data[104]["STATUS"],
+            current_phase_l1=data[99]["STATUS"],
+            current_phase_l2=data[100]["STATUS"],
+            current_phase_l3=data[101]["STATUS"],
+            power_consumed_phase_l1=convert(data[73]["STATUS"]),
+            power_consumed_phase_l2=convert(data[74]["STATUS"]),
+            power_consumed_phase_l3=convert(data[75]["STATUS"]),
+            power_produced_phase_l1=convert(data[76]["STATUS"]),
+            power_produced_phase_l2=convert(data[77]["STATUS"]),
+            power_produced_phase_l3=convert(data[78]["STATUS"]),
+        )
+
+def convert(data):
+    """Convert kW to W"""
+    value = int(float(data) * 1000)
+    return value
