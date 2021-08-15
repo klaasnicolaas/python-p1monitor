@@ -1,6 +1,17 @@
 ## Python P1 Monitor API Client
 
-Asynchronous Python client for the P1 Monitor API.
+<!-- PROJECT SHIELDS -->
+![Project Maintenance][maintenance-shield]
+[![License][license-shield]](LICENSE)
+
+[![GitHub Activity][commits-shield]][commits]
+[![GitHub Last Commit][last-commit-shield]][commits]
+[![Contributors][contributors-shield]][contributors-url]
+
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+
 
 ## About
 
@@ -50,6 +61,21 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+<!-- MARKDOWN LINKS & IMAGES -->
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/klaasnicolaas/p1_monitor.svg?style=for-the-badge
+[contributors-url]: https://github.com/klaasnicolaas/p1_monitor/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/p1_monitor.svg?style=for-the-badge
+[forks-url]: https://github.com/klaasnicolaas/p1_monitor/network/members
+[stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/p1_monitor.svg?style=for-the-badge
+[stars-url]: https://github.com/klaasnicolaas/p1_monitor/stargazers
+[issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/p1_monitor.svg?style=for-the-badge
+[issues-url]: https://github.com/klaasnicolaas/p1_monitor/issues
+[license-shield]: https://img.shields.io/github/license/klaasnicolaas/p1_monitor.svg?style=for-the-badge
+[commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/p1_monitor.svg?style=for-the-badge
+[commits]: https://github.com/klaasnicolaas/p1_monitor/commits/master
+[last-commit-shield]: https://img.shields.io/github/last-commit/klaasnicolaas/p1_monitor.svg?style=for-the-badge
 
 [p1-monitor]: https://www.ztatz.nl/p1-monitor
 [home-assistant]: https://www.home-assistant.io
