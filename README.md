@@ -16,7 +16,7 @@ Asynchronous Python client for the P1 Monitor API.
 
 ## About
 
-There are many ways to read the serial port (P1) of your smart meter and what you do with the data that comes out. With this pyhton library your platform can read [P1 Monitor][p1-monitor] via the API and use the data for example for an integration in [Home Assistant][home-assistant].
+There are many ways to read the serial port (P1) of your smart meter and what you do with the data that comes out. With this python library your platform can read [P1 Monitor][p1-monitor] via the API and use the data for example for an integration in [Home Assistant][home-assistant].
 
 ## Installation
 
@@ -42,6 +42,37 @@ async def main():
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
+```
+
+## Setting up development environment
+
+This Python project is fully managed using the [Poetry][poetry] dependency
+manager. But also relies on the use of NodeJS for certain checks during
+development.
+
+You need at least:
+
+- Python 3.7+
+- [Poetry][poetry-install]
+
+To install all packages, including all development requirements:
+
+```bash
+poetry install
+```
+
+As this repository uses the [pre-commit][pre-commit] framework, all changes
+are linted and tested with each commit. You can run all checks and tests
+manually, using the following command:
+
+```bash
+poetry run pre-commit run --all-files
+```
+
+To run just the Python tests:
+
+```bash
+poetry run pytest
 ```
 
 ## Data
@@ -106,3 +137,6 @@ SOFTWARE.
 
 [p1-monitor]: https://www.ztatz.nl/p1-monitor
 [home-assistant]: https://www.home-assistant.io
+[poetry-install]: https://python-poetry.org/docs/#installation
+[poetry]: https://python-poetry.org
+[pre-commit]: https://pre-commit.com

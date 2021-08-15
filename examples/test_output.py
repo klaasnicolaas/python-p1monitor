@@ -3,9 +3,11 @@
 
 import asyncio
 
-from p1_monitor import P1Monitor, SmartMeter, Settings, Phases
+from p1_monitor import P1Monitor, Phases, Settings, SmartMeter
+
 
 async def main():
+    """Test."""
     async with P1Monitor(
         host="example",
     ) as p1mon:

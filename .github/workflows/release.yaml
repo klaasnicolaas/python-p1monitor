@@ -1,8 +1,7 @@
-# This workflows will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
-
+---
 name: Release
 
+# yamllint disable-line rule:truthy
 on:
   release:
     types:
@@ -14,20 +13,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⤵️ Check out code from GitHub
-        uses: actions/checkout@v2
-      - name: 🏗 Set up Python
+        uses: actions/checkout@v2.3.4
+      - name: 🏗 Set up Python 3.8
+        id: python
         uses: actions/setup-python@v2.2.2
         with:
-          python-version: '3.x'
-      - name: 🏗 Install dependencies
+          python-version: 3.8
+      - name: 🏗 Get pip cache dir
+        id: pip-cache
         run: |
-          python -m pip install --upgrade pip
-          pip install setuptools wheel twine
+          echo "::set-output name=dir::$(pip cache dir)"
+      - name: ⤵️ Restore cached Python PIP packages
+        uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key: pip-${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('.github/workflows/requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-${{ steps.python.outputs.python-version }}-
+      - name: 🏗 Install workflow dependencies
+        run: |
+          pip install -r .github/workflows/requirements.txt
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
+      - name: ⤵️ Restore cached Python virtual environment
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2.1.6
+        with:
+          path: .venv
+          key: >-
+            venv-${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('poetry.lock') }}
+            venv-${{ runner.os }}-${{ steps.python.outputs.python-version }}-
+      - name: 🏗 Install dependencies
+        run: poetry install --no-interaction
+      - name: 🏗 Set package version
+        run: |
+          version="${{ github.event.release.tag_name }}"
+          version="${version,,}"
+          version="${version#v}"
+          poetry version --no-interaction "${version}"
+      - name: 🏗 Build package
+        run: poetry build --no-interaction
       - name: 🚀 Publish to PyPi
         env:
-          PACKAGE_VERSION: ${{ github.event.release.tag_name }}
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
-          python setup.py sdist bdist_wheel
-          twine upload dist/*
+          poetry config pypi-token.pypi "${PYPI_TOKEN}"
+          poetry publish --no-interaction
