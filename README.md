@@ -1,4 +1,4 @@
-## Python P1 Monitor API Client
+## Python - P1 Monitor API Client
 
 <!-- PROJECT SHIELDS -->
 ![Project Maintenance][maintenance-shield]
@@ -12,10 +12,37 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 
+Asynchronous Python client for the P1 Monitor API.
 
 ## About
 
 There are many ways to read the serial port (P1) of your smart meter and what you do with the data that comes out. With this pyhton library your platform can read [P1 Monitor][p1-monitor] via the API and use the data for example for an integration in [Home Assistant][home-assistant].
+
+## Installation
+
+```bash
+pip install p1_monitor
+```
+
+## Usage
+
+```python
+import asyncio
+
+from p1_monitor import P1Monitor
+
+
+async def main():
+    """Show example on getting P1 Monitor data."""
+    async with P1Monitor(host="example_host") as client:
+        smartmeter = await client.smartmeter()
+        print(smartmeter)
+
+
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+```
 
 ## Data
 
