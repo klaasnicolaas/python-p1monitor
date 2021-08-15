@@ -3,7 +3,7 @@
 
 import asyncio
 
-from p1_monitor import P1Monitor
+from p1monitor import P1Monitor
 
 
 async def main():

@@ -1,14 +1,14 @@
 [tool.poetry]
-name = "p1_monitor"
+name = "p1monitor"
 version = "0.0.0"
 description = "Asynchronous Python client for the P1 Monitor"
 authors = ["Klaas Schoute <hello@student-techlife.com>"]
 maintainers = ["Klaas Schoute <hello@student-techlife.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/klaasnicolaas/p1_monitor"
-repository = "https://github.com/klaasnicolaas/p1_monitor"
-documentation = "https://github.com/klaasnicolaas/p1_monitor"
+homepage = "https://github.com/klaasnicolaas/python-p1monitor"
+repository = "https://github.com/klaasnicolaas/python-p1monitor"
+documentation = "https://github.com/klaasnicolaas/python-p1monitor"
 keywords = ["p1", "monitor", "power", "energy", "api", "async", "client"]
 classifiers = [
     "Framework :: AsyncIO",
@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 packages = [
-    { include = "p1_monitor" },
+    { include = "p1monitor" },
 ]
 
 [tool.poetry.dependencies]
@@ -55,8 +55,8 @@ codespell = "^2.1.0"
 bandit = "^1.7.0"
 
 [tool.poetry.urls]
-"Bug Tracker" = "https://github.com/klaasnicolaas/p1_monitor/issues"
-Changelog = "https://github.com/klaasnicolaas/p1_monitor/releases"
+"Bug Tracker" = "https://github.com/klaasnicolaas/python-p1monitor/issues"
+Changelog = "https://github.com/klaasnicolaas/python-p1monitor/releases"
 
 [tool.black]
 target-version = ['py37']
@@ -98,7 +98,7 @@ max-attributes=20
 
 [tool.vulture]
 min_confidence = 80
-paths = ["p1_monitor"]
+paths = ["p1monitor"]
 verbose = true
 
 [build-system]

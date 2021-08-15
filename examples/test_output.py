@@ -3,7 +3,7 @@
 
 import asyncio
 
-from p1_monitor import P1Monitor, Phases, Settings, SmartMeter
+from p1monitor import P1Monitor, Phases, Settings, SmartMeter
 
 
 async def main():
