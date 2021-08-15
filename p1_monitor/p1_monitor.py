@@ -6,12 +6,12 @@ from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any
 
-from aiohttp.client import ClientSession
 import async_timeout
+from aiohttp.client import ClientError, ClientResponseError, ClientSession
 from yarl import URL
 
 from .exceptions import P1MonitorConnectionError, P1MonitorError
-from .models import SmartMeter, Settings, Phases
+from .models import Phases, Settings, SmartMeter
 
 
 @dataclass
@@ -19,11 +19,15 @@ class P1Monitor:
     """Main class for handling connections with the P1 Monitor API."""
 
     def __init__(
-        self,
-        host: str,
-        request_timeout: int = 10,
-        session: ClientSession | None = None
+        self, host: str, request_timeout: int = 10, session: ClientSession | None = None
     ) -> None:
+        """Initialize connection with the P1 Monitor API.
+
+        Args:
+            host: Hostname or IP address of the P1 Monitor.
+            request_timeout: An integer with the request timeout in seconds.
+            session: Optional, shared, aiohttp client session.
+        """
         self._session = session
         self._close_session = False
 
@@ -36,10 +40,22 @@ class P1Monitor:
         *,
         params: Mapping[str, str] | None = None,
     ) -> dict[str, Any]:
-        """ """
-        url = URL.build(
-            scheme="http", host=self.host, path="/api/v1/"
-        ).join(URL(uri))
+        """Handle a request to a P1 Monitor device.
+
+        Args:
+            uri: Request URI, without '/api/v1/', for example, 'status'
+            params: Extra options to improve or limit the response.
+
+        Returns:
+            A Python dictionary (JSON decoded) with the response from
+            the P1 Monitor API.
+
+        Raises:
+            P1MonitorConnectionError: An error occurred while communicating
+                with the P1 Monitor.
+            P1MonitorError: Received an unexpected response from the P1 Monitor API.
+        """
+        url = URL.build(scheme="http", host=self.host, path="/api/v1/").join(URL(uri))
 
         headers = {
             "Accept": "application/json, text/plain, */*",
@@ -62,6 +78,10 @@ class P1Monitor:
             raise P1MonitorConnectionError(
                 "Timeout occurred while connecting to P1 Monitor device"
             ) from exception
+        except (ClientError, ClientResponseError) as exception:
+            raise P1MonitorConnectionError(
+                "Error occurred while communicating with P1 Monitor device"
+            ) from exception
 
         content_type = response.headers.get("Content-Type", "")
         if "application/json" not in content_type:
@@ -74,14 +94,29 @@ class P1Monitor:
         return await response.json()
 
     async def smartmeter(self) -> SmartMeter:
+        """Get the latest values from you smart meter.
+
+        Returns:
+            A SmartMeter data object from the P1 Monitor API.
+        """
         data = await self._request("smartmeter", params={"json": "object", "limit": 1})
         return SmartMeter.from_dict(data)
 
     async def settings(self) -> Settings:
+        """Receive the set price values for energy and gas.
+
+        Returns:
+            A Settings data object from the P1 Monitor API.
+        """
         data = await self._request("configuration", params={"json": "object"})
         return Settings.from_dict(data)
 
     async def phases(self) -> Phases:
+        """Receive data from all phases on your smart meter.
+
+        Returns:
+            A Phases data object from the P1 Monitor API.
+        """
         data = await self._request("status", params={"json": "object"})
         return Phases.from_dict(data)
 
@@ -92,13 +127,15 @@ class P1Monitor:
 
     async def __aenter__(self) -> P1Monitor:
         """Async enter.
+
         Returns:
-            The P1M onitor object.
+            The P1 Monitor object.
         """
         return self
 
     async def __aexit__(self, *_exc_info) -> None:
         """Async exit.
+
         Args:
             _exc_info: Exec type.
         """

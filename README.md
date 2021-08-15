@@ -16,7 +16,7 @@ Asynchronous Python client for the P1 Monitor API.
 
 ## About
 
-There are many ways to read the serial port (P1) of your smart meter and what you do with the data that comes out. With this pyhton library your platform can read [P1 Monitor][p1-monitor] via the API and use the data for example for an integration in [Home Assistant][home-assistant].
+There are many ways to read the serial port (P1) of your smart meter and what you do with the data that comes out. With this python library your platform can read [P1 Monitor][p1-monitor] via the API and use the data for example for an integration in [Home Assistant][home-assistant].
 
 ## Installation
 
