@@ -1,7 +1,7 @@
 """Asynchronous Python client for the P1 Monitor API."""
 
 from .models import Phases, Settings, SmartMeter
-from .p1_monitor import P1Monitor, P1MonitorConnectionError, P1MonitorError
+from .p1monitor import P1Monitor, P1MonitorConnectionError, P1MonitorError
 
 __all__ = [
     "P1Monitor",

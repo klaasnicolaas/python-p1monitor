@@ -27,9 +27,9 @@ jobs:
         uses: actions/cache@v2.1.6
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: pip-${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('.github/workflows/requirements.txt') }}
+          key: pip-${{ runner.os }}-v1-${{ steps.python.outputs.python-version }}-${{ hashFiles('.github/workflows/requirements.txt') }}
           restore-keys: |
-            pip-${{ runner.os }}-${{ steps.python.outputs.python-version }}-
+            pip-${{ runner.os }}-v1-${{ steps.python.outputs.python-version }}-
       - name: 🏗 Install workflow dependencies
         run: |
           pip install -r .github/workflows/requirements.txt
@@ -41,8 +41,8 @@ jobs:
         with:
           path: .venv
           key: >-
-            venv-${{ runner.os }}-${{ steps.python.outputs.python-version }}-${{ hashFiles('poetry.lock') }}
-            venv-${{ runner.os }}-${{ steps.python.outputs.python-version }}-
+            venv-${{ runner.os }}-v1-${{ steps.python.outputs.python-version }}-${{ hashFiles('poetry.lock') }}
+            venv-${{ runner.os }}-v1-${{ steps.python.outputs.python-version }}-
       - name: 🏗 Install dependencies
         run: poetry install --no-interaction
       - name: 🏗 Set package version
