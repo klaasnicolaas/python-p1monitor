@@ -126,8 +126,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[code-quality-shield]: https://img.shields.io/lgtm/grade/python/g/klaasnicolaas/p1_monitor.svg?logo=lgtm&logoWidth=18
-[code-quality]: https://lgtm.com/projects/g/klaasnicolaas/p1_monitor/context:python
+[code-quality-shield]: https://img.shields.io/lgtm/grade/python/g/klaasnicolaas/python-p1monitor.svg?logo=lgtm&logoWidth=18
+[code-quality]: https://lgtm.com/projects/g/klaasnicolaas/python-p1monitor/context:python
 [contributors-shield]: https://img.shields.io/github/contributors/klaasnicolaas/python-p1monitor.svg
 [contributors-url]: https://github.com/klaasnicolaas/python-p1monitor/graphs/contributors
 [commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/python-p1monitor.svg
