@@ -1,16 +1,21 @@
 ## Python - P1 Monitor API Client
 
 <!-- PROJECT SHIELDS -->
+[![GitHub Release][releases-shield]][releases]
+[![Python Versions][python-versions-shield]][pypi]
+![Project Stage][project-stage-shield]
 ![Project Maintenance][maintenance-shield]
 [![License][license-shield]](LICENSE)
 
-[![GitHub Activity][commits-shield]][commits]
+[![Code Quality][code-quality-shield]][code-quality]
+[![Snyk][snyk-shield]][snyk]
 [![GitHub Last Commit][last-commit-shield]][commits]
-[![Contributors][contributors-shield]][contributors-url]
 
+[![GitHub Activity][commits-shield]][commits]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
+[![Contributors][contributors-shield]][contributors-url]
 
 Asynchronous Python client for the P1 Monitor API.
 
@@ -21,7 +26,7 @@ There are many ways to read the serial port (P1) of your smart meter and what yo
 ## Installation
 
 ```bash
-pip install p1_monitor
+pip install p1monitor
 ```
 
 ## Usage
@@ -29,7 +34,7 @@ pip install p1_monitor
 ```python
 import asyncio
 
-from p1_monitor import P1Monitor
+from p1monitor import P1Monitor
 
 
 async def main():
@@ -43,6 +48,27 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
 ```
+
+## Data
+
+There is a lot of data that you can read via the API:
+
+### SmartMeter
+- Gas Consumption
+- Power Consumption / Production
+- Energy Consumption Low/High
+- Energy Production Low/High
+
+### Phases
+- Voltage phases L1/2/3
+- Current Phases L1/2/3
+- Power consumed phases L1/2/3
+- Power Produced phases L1/2/3
+
+### Settings
+- Gas Consumption Tariff
+- Energy Consumption Tariff Low/High
+- Energy Production Tariff Low/High
 
 ## Setting up development environment
 
@@ -75,27 +101,6 @@ To run just the Python tests:
 poetry run pytest
 ```
 
-## Data
-
-There is a lot of data that you can read via the API:
-
-### SmartMeter
-- Gas Consumption
-- Power Consumption / Production
-- Energy Consumption Low/High
-- Energy Production Low/High
-
-### Phases
-- Voltage phases L1/2/3
-- Current Phases L1/2/3
-- Power consumed phases L1/2/3
-- Power Produced phases L1/2/3
-
-### Settings
-- Gas Consumption Tariff
-- Energy Consumption Tariff Low/High
-- Energy Production Tariff Low/High
-
 ## License
 
 MIT License
@@ -121,19 +126,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg?style=for-the-badge
-[contributors-shield]: https://img.shields.io/github/contributors/klaasnicolaas/p1_monitor.svg?style=for-the-badge
-[contributors-url]: https://github.com/klaasnicolaas/p1_monitor/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/p1_monitor.svg?style=for-the-badge
-[forks-url]: https://github.com/klaasnicolaas/p1_monitor/network/members
-[stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/p1_monitor.svg?style=for-the-badge
-[stars-url]: https://github.com/klaasnicolaas/p1_monitor/stargazers
-[issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/p1_monitor.svg?style=for-the-badge
-[issues-url]: https://github.com/klaasnicolaas/p1_monitor/issues
-[license-shield]: https://img.shields.io/github/license/klaasnicolaas/p1_monitor.svg?style=for-the-badge
-[commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/p1_monitor.svg?style=for-the-badge
-[commits]: https://github.com/klaasnicolaas/p1_monitor/commits/master
-[last-commit-shield]: https://img.shields.io/github/last-commit/klaasnicolaas/p1_monitor.svg?style=for-the-badge
+[code-quality-shield]: https://img.shields.io/lgtm/grade/python/g/klaasnicolaas/p1_monitor.svg?logo=lgtm&logoWidth=18
+[code-quality]: https://lgtm.com/projects/g/klaasnicolaas/p1_monitor/context:python
+[contributors-shield]: https://img.shields.io/github/contributors/klaasnicolaas/python-p1monitor.svg
+[contributors-url]: https://github.com/klaasnicolaas/python-p1monitor/graphs/contributors
+[commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/python-p1monitor.svg
+[commits]: https://github.com/klaasnicolaas/python-p1monitor/commits/master
+[forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/python-p1monitor.svg
+[forks-url]: https://github.com/klaasnicolaas/python-p1monitor/network/members
+[issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/python-p1monitor.svg
+[issues-url]: https://github.com/klaasnicolaas/python-p1monitor/issues
+[license-shield]: https://img.shields.io/github/license/klaasnicolaas/python-p1monitor.svg
+[last-commit-shield]: https://img.shields.io/github/last-commit/klaasnicolaas/python-p1monitor.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg
+[project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
+[pypi]: https://pypi.org/project/python-p1monitor/
+[python-versions-shield]: https://img.shields.io/pypi/pyversions/python-p1monitor
+[releases-shield]: https://img.shields.io/github/release/klaasnicolaas/python-p1monitor.svg
+[releases]: https://github.com/klaasnicolaas/python-p1monitor/releases
+[stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/python-p1monitor.svg
+[stars-url]: https://github.com/klaasnicolaas/python-p1monitor/stargazers
+[snyk-shield]: https://snyk.io/test/github/klaasnicolaas/python-p1monitor/badge.svg
+[snyk]: https://snyk.io/test/github/klaasnicolaas/python-p1monitor
 
 [p1-monitor]: https://www.ztatz.nl/p1-monitor
 [home-assistant]: https://www.home-assistant.io
