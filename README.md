@@ -142,8 +142,8 @@ SOFTWARE.
 [maintainability-shield]: https://api.codeclimate.com/v1/badges/443c476612a574d82467/maintainability
 [maintainability-url]: https://codeclimate.com/github/klaasnicolaas/python-p1monitor/maintainability
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
-[pypi]: https://pypi.org/project/python-p1monitor/
-[python-versions-shield]: https://img.shields.io/pypi/pyversions/python-p1monitor
+[pypi]: https://pypi.org/project/p1monitor/
+[python-versions-shield]: https://img.shields.io/pypi/pyversions/p1monitor
 [releases-shield]: https://img.shields.io/github/release/klaasnicolaas/python-p1monitor.svg
 [releases]: https://github.com/klaasnicolaas/python-p1monitor/releases
 [stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/python-p1monitor.svg
