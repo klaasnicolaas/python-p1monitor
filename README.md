@@ -7,15 +7,15 @@
 ![Project Maintenance][maintenance-shield]
 [![License][license-shield]](LICENSE)
 
-[![Code Quality][code-quality-shield]][code-quality]
-[![Snyk][snyk-shield]][snyk]
-[![GitHub Last Commit][last-commit-shield]][commits]
-
-[![GitHub Activity][commits-shield]][commits]
+[![GitHub Activity][commits-shield]][commits-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![Contributors][contributors-shield]][contributors-url]
+
+[![Code Quality][code-quality-shield]][code-quality]
+[![Maintainability][maintainability-shield]][maintainability-url]
+[![GitHub Last Commit][last-commit-shield]][commits-url]
 
 Asynchronous Python client for the P1 Monitor API.
 
@@ -131,7 +131,7 @@ SOFTWARE.
 [contributors-shield]: https://img.shields.io/github/contributors/klaasnicolaas/python-p1monitor.svg
 [contributors-url]: https://github.com/klaasnicolaas/python-p1monitor/graphs/contributors
 [commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/python-p1monitor.svg
-[commits]: https://github.com/klaasnicolaas/python-p1monitor/commits/master
+[commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/master
 [forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/python-p1monitor.svg
 [forks-url]: https://github.com/klaasnicolaas/python-p1monitor/network/members
 [issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/python-p1monitor.svg
@@ -139,6 +139,8 @@ SOFTWARE.
 [license-shield]: https://img.shields.io/github/license/klaasnicolaas/python-p1monitor.svg
 [last-commit-shield]: https://img.shields.io/github/last-commit/klaasnicolaas/python-p1monitor.svg
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg
+[maintainability-shield]: https://api.codeclimate.com/v1/badges/443c476612a574d82467/maintainability
+[maintainability-url]: https://codeclimate.com/github/klaasnicolaas/python-p1monitor/maintainability
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-experimental-yellow.svg
 [pypi]: https://pypi.org/project/python-p1monitor/
 [python-versions-shield]: https://img.shields.io/pypi/pyversions/python-p1monitor
@@ -146,8 +148,6 @@ SOFTWARE.
 [releases]: https://github.com/klaasnicolaas/python-p1monitor/releases
 [stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/python-p1monitor.svg
 [stars-url]: https://github.com/klaasnicolaas/python-p1monitor/stargazers
-[snyk-shield]: https://snyk.io/test/github/klaasnicolaas/python-p1monitor/badge.svg
-[snyk]: https://snyk.io/test/github/klaasnicolaas/python-p1monitor
 
 [p1-monitor]: https://www.ztatz.nl/p1-monitor
 [home-assistant]: https://www.home-assistant.io
