@@ -63,12 +63,13 @@ class Settings:
         Returns:
             A Settings object.
         """
+
         return Settings(
-            gas_consumption_tariff=data[15]["PARAMETER"],
-            energy_consumption_low_tariff=data[1]["PARAMETER"],
-            energy_consumption_high_tariff=data[2]["PARAMETER"],
-            energy_production_low_tariff=data[3]["PARAMETER"],
-            energy_production_high_tariff=data[4]["PARAMETER"],
+            gas_consumption_tariff=search(15, data, "configuration"),
+            energy_consumption_low_tariff=search(1, data, "configuration"),
+            energy_consumption_high_tariff=search(2, data, "configuration"),
+            energy_production_low_tariff=search(3, data, "configuration"),
+            energy_production_high_tariff=search(4, data, "configuration"),
         )
 
 
@@ -102,30 +103,51 @@ class Phases:
         Returns:
             A Phases object.
         """
+
+        def convert(value):
+            """Convert values from kW to W.
+
+            Args:
+                value: The current value.
+
+            Returns:
+                Value in Watt (W).
+            """
+            if value is not None:
+                value = int(float(value) * 1000)
+                return value
+            return None
+
         return Phases(
-            voltage_phase_l1=data[102]["STATUS"],
-            voltage_phase_l2=data[103]["STATUS"],
-            voltage_phase_l3=data[104]["STATUS"],
-            current_phase_l1=data[99]["STATUS"],
-            current_phase_l2=data[100]["STATUS"],
-            current_phase_l3=data[101]["STATUS"],
-            power_consumed_phase_l1=convert(data[73]["STATUS"]),
-            power_consumed_phase_l2=convert(data[74]["STATUS"]),
-            power_consumed_phase_l3=convert(data[75]["STATUS"]),
-            power_produced_phase_l1=convert(data[76]["STATUS"]),
-            power_produced_phase_l2=convert(data[77]["STATUS"]),
-            power_produced_phase_l3=convert(data[78]["STATUS"]),
+            voltage_phase_l1=search(103, data, "status"),
+            voltage_phase_l2=search(104, data, "status"),
+            voltage_phase_l3=search(105, data, "status"),
+            current_phase_l1=search(100, data, "status"),
+            current_phase_l2=search(101, data, "status"),
+            current_phase_l3=search(102, data, "status"),
+            power_consumed_phase_l1=convert(search(74, data, "status")),
+            power_consumed_phase_l2=convert(search(75, data, "status")),
+            power_consumed_phase_l3=convert(search(76, data, "status")),
+            power_produced_phase_l1=convert(search(77, data, "status")),
+            power_produced_phase_l2=convert(search(78, data, "status")),
+            power_produced_phase_l3=convert(search(79, data, "status")),
         )
 
 
-def convert(data):
-    """Convert values from kW to W.
+def search(position, data, service):
+    """Find the correct value in the json data file.
 
     Args:
-        data: The value.
+        position: The position ID number.
+        data: The JSON list which is requested from the API.
+        service: Type of dataclass.
 
     Returns:
-        Value in Watt (W).
+        The value that corresponds to the specified position.
     """
-    value = int(float(data) * 1000)
-    return value
+    for i in data:
+        if service == "configuration" and i["CONFIGURATION_ID"] == position:
+            return i["PARAMETER"]
+        if service == "status" and i["STATUS_ID"] == position:
+            return i["STATUS"]
+    return None
