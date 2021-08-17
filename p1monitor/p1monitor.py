@@ -34,7 +34,7 @@ class P1Monitor:
         self.host = host
         self.request_timeout = request_timeout
 
-    async def _request(
+    async def request(
         self,
         uri: str,
         *,
@@ -43,7 +43,7 @@ class P1Monitor:
         """Handle a request to a P1 Monitor device.
 
         Args:
-            uri: Request URI, without '/api/v1/', for example, 'status'
+            uri: Request URI, without '/api/', for example, 'status'
             params: Extra options to improve or limit the response.
 
         Returns:
@@ -55,7 +55,7 @@ class P1Monitor:
                 with the P1 Monitor.
             P1MonitorError: Received an unexpected response from the P1 Monitor API.
         """
-        url = URL.build(scheme="http", host=self.host, path="/api/v1/").join(URL(uri))
+        url = URL.build(scheme="http", host=self.host, path="/api/").join(URL(uri))
 
         headers = {
             "Accept": "application/json, text/plain, */*",
@@ -99,7 +99,9 @@ class P1Monitor:
         Returns:
             A SmartMeter data object from the P1 Monitor API.
         """
-        data = await self._request("smartmeter", params={"json": "object", "limit": 1})
+        data = await self.request(
+            "v1/smartmeter", params={"json": "object", "limit": 1}
+        )
         return SmartMeter.from_dict(data)
 
     async def settings(self) -> Settings:
@@ -108,7 +110,7 @@ class P1Monitor:
         Returns:
             A Settings data object from the P1 Monitor API.
         """
-        data = await self._request("configuration", params={"json": "object"})
+        data = await self.request("v1/configuration", params={"json": "object"})
         return Settings.from_dict(data)
 
     async def phases(self) -> Phases:
@@ -117,7 +119,7 @@ class P1Monitor:
         Returns:
             A Phases data object from the P1 Monitor API.
         """
-        data = await self._request("status", params={"json": "object"})
+        data = await self.request("v1/status", params={"json": "object"})
         return Phases.from_dict(data)
 
     async def close(self) -> None:

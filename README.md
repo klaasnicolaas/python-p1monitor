@@ -58,6 +58,7 @@ There is a lot of data that you can read via the API:
 - Power Consumption / Production
 - Energy Consumption Low/High
 - Energy Production Low/High
+- Energy Tariff Period
 
 ### Phases
 - Voltage phases L1/2/3

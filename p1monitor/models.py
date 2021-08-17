@@ -5,11 +5,19 @@ from dataclasses import dataclass
 from typing import Any
 
 
+class EnergyTariff(str):
+    """Enumeration representing the rate period."""
+
+    LOW = "low"
+    HIGH = "high"
+
+
 @dataclass
 class SmartMeter:
     """Object representing an SmartMeter response from P1 Monitor."""
 
     gas_consumption: float | None
+    energy_tariff_period: str | None
 
     power_consumption: int | None
     energy_consumption_high: float | None
@@ -29,6 +37,20 @@ class SmartMeter:
         Returns:
             A SmartMeter object.
         """
+
+        def energy_tariff(tariff) -> str:
+            """Return API energy_tariff information.
+
+            Args:
+                tariff: The provided tariff code from the API.
+
+            Returns:
+                The energy tariff period class.
+            """
+            if tariff == "P":
+                return EnergyTariff.HIGH
+            return EnergyTariff.LOW
+
         data = data[0]
         return SmartMeter(
             gas_consumption=data.get("CONSUMPTION_GAS_M3"),
@@ -38,6 +60,7 @@ class SmartMeter:
             power_production=data.get("PRODUCTION_W"),
             energy_production_high=data.get("PRODUCTION_KWH_HIGH"),
             energy_production_low=data.get("PRODUCTION_KWH_LOW"),
+            energy_tariff_period=energy_tariff(data.get("TARIFCODE")),
         )
 
 
