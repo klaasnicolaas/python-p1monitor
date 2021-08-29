@@ -68,13 +68,13 @@ class SmartMeter:
 class Settings:
     """Object representing an Settings response from P1 Monitor."""
 
-    gas_consumption_tariff: float | None
+    gas_consumption_price: float | None
 
-    energy_consumption_high_tariff: float | None
-    energy_consumption_low_tariff: float | None
+    energy_consumption_price_high: float | None
+    energy_consumption_price_low: float | None
 
-    energy_production_high_tariff: float | None
-    energy_production_low_tariff: float | None
+    energy_production_price_high: float | None
+    energy_production_price_low: float | None
 
     @staticmethod
     def from_dict(data: dict[str, Any]) -> Settings:
@@ -88,11 +88,11 @@ class Settings:
         """
 
         return Settings(
-            gas_consumption_tariff=search(15, data, "configuration"),
-            energy_consumption_low_tariff=search(1, data, "configuration"),
-            energy_consumption_high_tariff=search(2, data, "configuration"),
-            energy_production_low_tariff=search(3, data, "configuration"),
-            energy_production_high_tariff=search(4, data, "configuration"),
+            gas_consumption_price=search(15, data, "configuration"),
+            energy_consumption_price_low=search(1, data, "configuration"),
+            energy_consumption_price_high=search(2, data, "configuration"),
+            energy_production_price_low=search(3, data, "configuration"),
+            energy_production_price_high=search(4, data, "configuration"),
         )
 
 
