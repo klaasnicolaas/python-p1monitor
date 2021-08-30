@@ -32,7 +32,7 @@ yarl = ">=1.6.0"
 [tool.poetry.dev-dependencies]
 aresponses = "^2.1.4"
 black = "^21.7b0"
-blacken-docs = "^1.10.0"
+blacken-docs = "^1.11.0"
 flake8 = "^3.8.4"
 flake8-docstrings = "^1.5.0"
 isort = "^5.9.3"
