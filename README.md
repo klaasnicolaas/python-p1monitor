@@ -67,9 +67,9 @@ There is a lot of data that you can read via the API:
 - Power Produced phases L1/2/3
 
 ### Settings
-- Gas Consumption Tariff
-- Energy Consumption Tariff Low/High
-- Energy Production Tariff Low/High
+- Gas Consumption Price
+- Energy Consumption Price Low/High
+- Energy Production Price Low/High
 
 ## Setting up development environment
 
