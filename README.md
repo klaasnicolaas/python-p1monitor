@@ -11,11 +11,12 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![Contributors][contributors-shield]][contributors-url]
+[![GitHub Last Commit][last-commit-shield]][commits-url]
 
 [![Code Quality][code-quality-shield]][code-quality]
 [![Maintainability][maintainability-shield]][maintainability-url]
-[![GitHub Last Commit][last-commit-shield]][commits-url]
+[![Code Coverage][codecov-shield]][codecov-url]
+[![Build Status][build-shield]][build-url]
 
 Asynchronous Python client for the P1 Monitor API.
 
@@ -74,19 +75,34 @@ There is a lot of data that you can read via the API:
 ## Setting up development environment
 
 This Python project is fully managed using the [Poetry][poetry] dependency
-manager. But also relies on the use of NodeJS for certain checks during
-development.
+manager.
 
 You need at least:
 
-- Python 3.7+
+- Python 3.8+
 - [Poetry][poetry-install]
 
-To install all packages, including all development requirements:
+Install all packages, including all development requirements:
 
 ```bash
 poetry install
 ```
+
+Poetry creates by default an virtual environment where it installs all
+necessary pip packages, to enter or exit the venv run the following commands:
+
+```bash
+poetry shell
+exit
+```
+
+Setup the pre-commit check, you must run this inside the virtual environment:
+
+```bash
+pre-commit install
+```
+
+*Now you're all set to get started!*
 
 As this repository uses the [pre-commit][pre-commit] framework, all changes
 are linted and tested with each commit. You can run all checks and tests
@@ -127,12 +143,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 <!-- MARKDOWN LINKS & IMAGES -->
+[build-shield]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/tests.yaml/badge.svg
+[build-url]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/tests.yaml
 [code-quality-shield]: https://img.shields.io/lgtm/grade/python/g/klaasnicolaas/python-p1monitor.svg?logo=lgtm&logoWidth=18
 [code-quality]: https://lgtm.com/projects/g/klaasnicolaas/python-p1monitor/context:python
-[contributors-shield]: https://img.shields.io/github/contributors/klaasnicolaas/python-p1monitor.svg
-[contributors-url]: https://github.com/klaasnicolaas/python-p1monitor/graphs/contributors
 [commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/python-p1monitor.svg
 [commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/master
+[codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/master/graph/badge.svg?token=G4FIVHJVZR
+[codecov-url]: https://codecov.io/gh/klaasnicolaas/python-p1monitor
 [forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/python-p1monitor.svg
 [forks-url]: https://github.com/klaasnicolaas/python-p1monitor/network/members
 [issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/python-p1monitor.svg
