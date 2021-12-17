@@ -14,11 +14,33 @@ async def main():
         smartmeter: SmartMeter = await p1mon.smartmeter()
         settings: Settings = await p1mon.settings()
         phases: Phases = await p1mon.phases()
-        print(f"P1 Monitor - SmartMeter: {smartmeter}")
+        print(smartmeter)
         print()
-        print(f"P1 Monitor - Settings: {settings}")
+        print("--- P1 Monitor | SmartMeter ---")
+        print(f"Energy Consumption - High: {smartmeter.energy_consumption_high}")
+        print(f"Energy Consumption - Low: {smartmeter.energy_consumption_low}")
+        print(f"Energy Production - High: {smartmeter.energy_production_high}")
+        print(f"Energy Production - Low: {smartmeter.energy_production_low}")
+        print(f"Energy Tariff: {smartmeter.energy_tariff_period}")
         print()
-        print(f"P1 Monitor - Phases: {phases}")
+        print(settings)
+        print()
+        print("--- P1 Monitor | Settings ---")
+        print(
+            f"Energy Consumption Price - High: {settings.energy_consumption_price_high}"
+        )
+        print(
+            f"Energy Production Price - High: {settings.energy_production_price_high}"
+        )
+        print(f"Gas Price: {settings.gas_consumption_price}")
+        print()
+        print(phases)
+        print()
+        print("--- P1 Monitor | Phases ---")
+        print(f"Current Phase L1: {phases.current_phase_l1}")
+        print(f"Power Consumed Phase L1: {phases.power_consumed_phase_l1}")
+        print(f"Power Produced Phase L1: {phases.power_produced_phase_l1}")
+        print(f"Voltage Phase L1: {phases.voltage_phase_l1}")
 
 
 if __name__ == "__main__":
