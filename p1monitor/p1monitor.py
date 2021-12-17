@@ -4,10 +4,12 @@ from __future__ import annotations
 import asyncio
 from collections.abc import Mapping
 from dataclasses import dataclass
+from importlib import metadata
 from typing import Any
 
-import async_timeout
 from aiohttp.client import ClientError, ClientResponseError, ClientSession
+from aiohttp.hdrs import METH_GET
+from async_timeout import timeout
 from yarl import URL
 
 from .exceptions import P1MonitorConnectionError, P1MonitorError
@@ -18,32 +20,24 @@ from .models import Phases, Settings, SmartMeter
 class P1Monitor:
     """Main class for handling connections with the P1 Monitor API."""
 
-    def __init__(
-        self, host: str, request_timeout: int = 10, session: ClientSession | None = None
-    ) -> None:
-        """Initialize connection with the P1 Monitor API.
+    host: str
+    request_timeout: int = 10
+    session: ClientSession | None = None
 
-        Args:
-            host: Hostname or IP address of the P1 Monitor.
-            request_timeout: An integer with the request timeout in seconds.
-            session: Optional, shared, aiohttp client session.
-        """
-        self._session = session
-        self._close_session = False
-
-        self.host = host
-        self.request_timeout = request_timeout
+    _close_session: bool = False
 
     async def request(
         self,
         uri: str,
         *,
+        method: str = METH_GET,
         params: Mapping[str, str] | None = None,
     ) -> dict[str, Any]:
         """Handle a request to a P1 Monitor device.
 
         Args:
             uri: Request URI, without '/api/', for example, 'status'
+            method: HTTP Method to use.
             params: Extra options to improve or limit the response.
 
         Returns:
@@ -55,20 +49,22 @@ class P1Monitor:
                 with the P1 Monitor.
             P1MonitorError: Received an unexpected response from the P1 Monitor API.
         """
+        version = metadata.version(__package__)
         url = URL.build(scheme="http", host=self.host, path="/api/").join(URL(uri))
 
         headers = {
+            "User-Agent": f"PythonP1Monitor/{version}",
             "Accept": "application/json, text/plain, */*",
         }
 
-        if self._session is None:
-            self._session = ClientSession()
+        if self.session is None:
+            self.session = ClientSession()
             self._close_session = True
 
         try:
-            with async_timeout.timeout(self.request_timeout):
-                response = await self._session.request(
-                    "GET",
+            async with timeout(self.request_timeout):
+                response = await self.session.request(
+                    method,
                     url,
                     params=params,
                     headers=headers,
@@ -124,8 +120,8 @@ class P1Monitor:
 
     async def close(self) -> None:
         """Close open client session."""
-        if self._session and self._close_session:
-            await self._session.close()
+        if self.session and self._close_session:
+            await self.session.close()
 
     async def __aenter__(self) -> P1Monitor:
         """Async enter.
