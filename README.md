@@ -158,8 +158,8 @@ SOFTWARE.
 [code-quality-shield]: https://img.shields.io/lgtm/grade/python/g/klaasnicolaas/python-p1monitor.svg?logo=lgtm&logoWidth=18
 [code-quality]: https://lgtm.com/projects/g/klaasnicolaas/python-p1monitor/context:python
 [commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/python-p1monitor.svg
-[commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/master
-[codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/master/graph/badge.svg?token=G4FIVHJVZR
+[commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/main
+[codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/main/graph/badge.svg?token=G4FIVHJVZR
 [codecov-url]: https://codecov.io/gh/klaasnicolaas/python-p1monitor
 [forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/python-p1monitor.svg
 [forks-url]: https://github.com/klaasnicolaas/python-p1monitor/network/members
