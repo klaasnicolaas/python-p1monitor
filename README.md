@@ -72,6 +72,16 @@ There is a lot of data that you can read via the API:
 - Energy Consumption Price Low/High
 - Energy Production Price Low/High
 
+## Contributing
+
+This is an active open-source project. We are always open to people who want to
+use the code or contribute to it.
+
+We've set up a separate document for our
+[contribution guidelines](CONTRIBUTING.md).
+
+Thank you for being involved! :heart_eyes:
+
 ## Setting up development environment
 
 This Python project is fully managed using the [Poetry][poetry] dependency
@@ -148,8 +158,8 @@ SOFTWARE.
 [code-quality-shield]: https://img.shields.io/lgtm/grade/python/g/klaasnicolaas/python-p1monitor.svg?logo=lgtm&logoWidth=18
 [code-quality]: https://lgtm.com/projects/g/klaasnicolaas/python-p1monitor/context:python
 [commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/python-p1monitor.svg
-[commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/master
-[codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/master/graph/badge.svg?token=G4FIVHJVZR
+[commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/main
+[codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/main/graph/badge.svg?token=G4FIVHJVZR
 [codecov-url]: https://codecov.io/gh/klaasnicolaas/python-p1monitor
 [forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/python-p1monitor.svg
 [forks-url]: https://github.com/klaasnicolaas/python-p1monitor/network/members
