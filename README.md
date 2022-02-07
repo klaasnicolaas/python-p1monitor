@@ -132,7 +132,7 @@ poetry run pytest
 
 MIT License
 
-Copyright (c) 2021 Klaas Schoute
+Copyright (c) 2021-2022 Klaas Schoute
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -167,7 +167,7 @@ SOFTWARE.
 [issues-url]: https://github.com/klaasnicolaas/python-p1monitor/issues
 [license-shield]: https://img.shields.io/github/license/klaasnicolaas/python-p1monitor.svg
 [last-commit-shield]: https://img.shields.io/github/last-commit/klaasnicolaas/python-p1monitor.svg
-[maintenance-shield]: https://img.shields.io/maintenance/yes/2021.svg
+[maintenance-shield]: https://img.shields.io/maintenance/yes/2022.svg
 [maintainability-shield]: https://api.codeclimate.com/v1/badges/443c476612a574d82467/maintainability
 [maintainability-url]: https://codeclimate.com/github/klaasnicolaas/python-p1monitor/maintainability
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-production%20ready-brightgreen.svg
