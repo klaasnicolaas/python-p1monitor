@@ -10,8 +10,8 @@ jobs:
     runs-on: ${{ matrix.os }}-latest
     strategy:
       matrix:
-        os: [ubuntu, windows, macos]
-        python: ['3.8', '3.9', '3.10']
+        os: [ubuntu, macos]
+        python: ['3.9', '3.10']
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v2.3.4
