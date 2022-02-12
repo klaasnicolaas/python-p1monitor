@@ -13,7 +13,7 @@ from async_timeout import timeout
 from yarl import URL
 
 from .exceptions import P1MonitorConnectionError, P1MonitorError
-from .models import Phases, Settings, SmartMeter
+from .models import Phases, Settings, SmartMeter, WaterMeter
 
 
 @dataclass
@@ -117,6 +117,17 @@ class P1Monitor:
         """
         data = await self.request("v1/status", params={"json": "object"})
         return Phases.from_dict(data)
+
+    async def watermeter(self) -> WaterMeter:
+        """Get the latest values from you water meter.
+
+        Returns:
+            A WaterMeter data object from the P1 Monitor API.
+        """
+        data = await self.request(
+            "v2/watermeter/day", params={"json": "object", "limit": 1}
+        )
+        return WaterMeter.from_dict(data)
 
     async def close(self) -> None:
         """Close open client session."""
