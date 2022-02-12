@@ -2,7 +2,7 @@
 import aiohttp
 import pytest
 
-from p1monitor import P1Monitor, Phases, Settings, SmartMeter
+from p1monitor import P1Monitor, Phases, Settings, SmartMeter, WaterMeter
 
 from . import load_fixtures
 
@@ -57,6 +57,29 @@ async def test_phases(aresponses):
         assert phases.power_consumed_phase_l1 == 863
         assert phases.power_produced_phase_l1 == 0
         assert phases.voltage_phase_l1 == "229.0"
+
+
+@pytest.mark.asyncio
+async def test_watermeter(aresponses):
+    """Test request from a P1 Monitor device - WaterMeter object."""
+    aresponses.add(
+        "example.com",
+        "/api/v2/watermeter/day",
+        "GET",
+        aresponses.Response(
+            text=load_fixtures("watermeter.json"),
+            status=200,
+            headers={"Content-Type": "application/json; charset=utf-8"},
+        ),
+    )
+
+    async with aiohttp.ClientSession() as session:
+        client = P1Monitor(host="example.com", session=session)
+        watermeter: WaterMeter = await client.watermeter()
+        assert watermeter
+        assert watermeter.consumption_day == 128
+        assert watermeter.consumption_total == 1640.399
+        assert watermeter.pulse_count == 128
 
 
 @pytest.mark.asyncio

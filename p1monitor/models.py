@@ -19,9 +19,9 @@ class SmartMeter:
     gas_consumption: float | None
     energy_tariff_period: str | None
 
-    power_consumption: int | None
-    energy_consumption_high: float | None
-    energy_consumption_low: float | None
+    power_consumption: int
+    energy_consumption_high: float
+    energy_consumption_low: float
 
     power_production: int | None
     energy_production_high: float | None
@@ -154,6 +154,33 @@ class Phases:
             power_produced_phase_l1=convert(search(77, data, "status")),
             power_produced_phase_l2=convert(search(78, data, "status")),
             power_produced_phase_l3=convert(search(79, data, "status")),
+        )
+
+
+@dataclass
+class WaterMeter:
+    """Object representing an WaterMeter response from P1 Monitor."""
+
+    consumption_day: int
+    consumption_total: float
+    pulse_count: int
+
+    @staticmethod
+    def from_dict(data: dict[str, Any]) -> WaterMeter:
+        """Return WaterMeter object from the P1 Monitor API response.
+
+        Args:
+            data: The data from the P1 Monitor API.
+
+        Returns:
+            A WaterMeter object.
+        """
+
+        data = data[0]
+        return WaterMeter(
+            consumption_day=int(data.get("WATERMETER_CONSUMPTION_LITER")),
+            consumption_total=data.get("WATERMETER_CONSUMPTION_TOTAL_M3"),
+            pulse_count=int(data.get("WATERMETER_PULS_COUNT")),
         )
 
 

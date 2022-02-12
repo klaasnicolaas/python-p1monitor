@@ -67,6 +67,11 @@ There is a lot of data that you can read via the API:
 - Power consumed phases L1/2/3
 - Power Produced phases L1/2/3
 
+### WaterMeter
+- Day Consumption (liters)
+- Total Consumption (m3)
+- Day Pulse count
+
 ### Settings
 - Gas Consumption Price
 - Energy Consumption Price Low/High

@@ -3,7 +3,7 @@
 
 import asyncio
 
-from p1monitor import P1Monitor, Phases, Settings, SmartMeter
+from p1monitor import P1Monitor, Phases, Settings, SmartMeter, WaterMeter
 
 
 async def main():
@@ -14,6 +14,7 @@ async def main():
         smartmeter: SmartMeter = await p1mon.smartmeter()
         settings: Settings = await p1mon.settings()
         phases: Phases = await p1mon.phases()
+        watermeter: WaterMeter = await p1mon.watermeter()
         print(smartmeter)
         print()
         print("--- P1 Monitor | SmartMeter ---")
@@ -41,6 +42,13 @@ async def main():
         print(f"Power Consumed Phase L1: {phases.power_consumed_phase_l1}")
         print(f"Power Produced Phase L1: {phases.power_produced_phase_l1}")
         print(f"Voltage Phase L1: {phases.voltage_phase_l1}")
+        print()
+        print(watermeter)
+        print()
+        print("--- P1 Monitor | WaterMeter ---")
+        print(f"Consumption Day: {watermeter.consumption_day}")
+        print(f"Consumption Total: {watermeter.consumption_total}")
+        print(f"Pulse Count: {watermeter.pulse_count}")
 
 
 if __name__ == "__main__":
