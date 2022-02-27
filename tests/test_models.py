@@ -1,6 +1,7 @@
 """Test the models."""
 import aiohttp
 import pytest
+from aresponses import ResponsesMockServer
 
 from p1monitor import P1Monitor, Phases, Settings, SmartMeter, WaterMeter
 
@@ -8,7 +9,7 @@ from . import load_fixtures
 
 
 @pytest.mark.asyncio
-async def test_smartmeter(aresponses):
+async def test_smartmeter(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - SmartMeter object."""
     aresponses.add(
         "example.com",
@@ -36,7 +37,7 @@ async def test_smartmeter(aresponses):
 
 
 @pytest.mark.asyncio
-async def test_phases(aresponses):
+async def test_phases(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - Phases object."""
     aresponses.add(
         "example.com",
@@ -60,7 +61,7 @@ async def test_phases(aresponses):
 
 
 @pytest.mark.asyncio
-async def test_watermeter(aresponses):
+async def test_watermeter(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - WaterMeter object."""
     aresponses.add(
         "example.com",
@@ -83,7 +84,7 @@ async def test_watermeter(aresponses):
 
 
 @pytest.mark.asyncio
-async def test_settings(aresponses):
+async def test_settings(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - Settings object."""
     aresponses.add(
         "example.com",

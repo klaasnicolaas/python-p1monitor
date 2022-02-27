@@ -6,7 +6,7 @@ import asyncio
 from p1monitor import P1Monitor
 
 
-async def main():
+async def main() -> None:
     """Show example on getting P1 Monitor data."""
     async with P1Monitor(host="example") as client:
         phases = await client.phases()
