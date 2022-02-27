@@ -21,7 +21,7 @@ class P1Monitor:
     """Main class for handling connections with the P1 Monitor API."""
 
     host: str
-    request_timeout: int = 10
+    request_timeout: float = 10.0
     session: ClientSession | None = None
 
     _close_session: bool = False
@@ -31,8 +31,8 @@ class P1Monitor:
         uri: str,
         *,
         method: str = METH_GET,
-        params: Mapping[str, str] | None = None,
-    ) -> dict[str, Any]:
+        params: Mapping[str, Any] | None = None,
+    ) -> Any:
         """Handle a request to a P1 Monitor device.
 
         Args:
@@ -87,7 +87,8 @@ class P1Monitor:
                 {"Content-Type": content_type, "response": text},
             )
 
-        return await response.json()
+        response_data: dict[str, Any] = await response.json(content_type=None)
+        return response_data
 
     async def smartmeter(self) -> SmartMeter:
         """Get the latest values from you smart meter.
@@ -142,7 +143,7 @@ class P1Monitor:
         """
         return self
 
-    async def __aexit__(self, *_exc_info) -> None:
+    async def __aexit__(self, *_exc_info: Any) -> None:
         """Async exit.
 
         Args:

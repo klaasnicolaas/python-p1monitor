@@ -16,7 +16,9 @@
 [![Code Quality][code-quality-shield]][code-quality]
 [![Maintainability][maintainability-shield]][maintainability-url]
 [![Code Coverage][codecov-shield]][codecov-url]
+
 [![Build Status][build-shield]][build-url]
+[![Typing Status][typing-shield]][typing-url]
 
 Asynchronous Python client for the P1 Monitor API.
 
@@ -178,6 +180,8 @@ SOFTWARE.
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-production%20ready-brightgreen.svg
 [pypi]: https://pypi.org/project/p1monitor/
 [python-versions-shield]: https://img.shields.io/pypi/pyversions/p1monitor
+[typing-shield]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/typing.yaml/badge.svg
+[typing-url]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/typing.yaml
 [releases-shield]: https://img.shields.io/github/release/klaasnicolaas/python-p1monitor.svg
 [releases]: https://github.com/klaasnicolaas/python-p1monitor/releases
 [stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/python-p1monitor.svg

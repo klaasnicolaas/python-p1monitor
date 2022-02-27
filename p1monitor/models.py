@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import Enum
 from typing import Any
 
 
-class EnergyTariff(str):
+class EnergyTariff(str, Enum):
     """Enumeration representing the rate period."""
 
     LOW = "low"
@@ -19,16 +20,16 @@ class SmartMeter:
     gas_consumption: float | None
     energy_tariff_period: str | None
 
-    power_consumption: int
-    energy_consumption_high: float
-    energy_consumption_low: float
+    power_consumption: int | None
+    energy_consumption_high: float | None
+    energy_consumption_low: float | None
 
     power_production: int | None
     energy_production_high: float | None
     energy_production_low: float | None
 
     @staticmethod
-    def from_dict(data: dict[str, Any]) -> SmartMeter:
+    def from_dict(data: dict[str | int, Any]) -> SmartMeter:
         """Return SmartMeter object from the P1 Monitor API response.
 
         Args:
@@ -38,7 +39,7 @@ class SmartMeter:
             A SmartMeter object.
         """
 
-        def energy_tariff(tariff) -> str:
+        def energy_tariff(tariff: str) -> EnergyTariff:
             """Return API energy_tariff information.
 
             Args:
@@ -60,7 +61,7 @@ class SmartMeter:
             power_production=data.get("PRODUCTION_W"),
             energy_production_high=data.get("PRODUCTION_KWH_HIGH"),
             energy_production_low=data.get("PRODUCTION_KWH_LOW"),
-            energy_tariff_period=energy_tariff(data.get("TARIFCODE")),
+            energy_tariff_period=energy_tariff(str(data.get("TARIFCODE"))),
         )
 
 
@@ -117,7 +118,7 @@ class Phases:
     power_produced_phase_l3: int | None
 
     @staticmethod
-    def from_dict(data: dict[str, Any]) -> Phases:
+    def from_dict(data: dict[str | int, Any]) -> Phases:
         """Return Phases object from the P1 Monitor API response.
 
         Args:
@@ -127,7 +128,7 @@ class Phases:
             A Phases object.
         """
 
-        def convert(value):
+        def convert(value: int) -> int | None:
             """Convert values from kW to W.
 
             Args:
@@ -161,12 +162,12 @@ class Phases:
 class WaterMeter:
     """Object representing an WaterMeter response from P1 Monitor."""
 
-    consumption_day: int
-    consumption_total: float
-    pulse_count: int
+    consumption_day: int | None
+    consumption_total: float | None
+    pulse_count: int | None
 
     @staticmethod
-    def from_dict(data: dict[str, Any]) -> WaterMeter:
+    def from_dict(data: dict[str | int, Any]) -> WaterMeter:
         """Return WaterMeter object from the P1 Monitor API response.
 
         Args:
@@ -178,13 +179,13 @@ class WaterMeter:
 
         data = data[0]
         return WaterMeter(
-            consumption_day=int(data.get("WATERMETER_CONSUMPTION_LITER")),
+            consumption_day=data.get("WATERMETER_CONSUMPTION_LITER"),
             consumption_total=data.get("WATERMETER_CONSUMPTION_TOTAL_M3"),
-            pulse_count=int(data.get("WATERMETER_PULS_COUNT")),
+            pulse_count=data.get("WATERMETER_PULS_COUNT"),
         )
 
 
-def search(position, data, service):
+def search(position: int, data: Any, service: str) -> Any:
     """Find the correct value in the json data file.
 
     Args:

@@ -104,6 +104,11 @@ repos:
         language: system
         types: [python]
         entry: poetry run isort
+      - id: mypy
+        name: 🆎 Static type checking using mypy
+        language: system
+        types: [python]
+        entry: poetry run mypy
       - id: no-commit-to-branch
         name: 🛑 Don't commit to main branch
         language: system
