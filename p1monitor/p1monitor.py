@@ -2,14 +2,15 @@
 from __future__ import annotations
 
 import asyncio
+import socket
 from collections.abc import Mapping
 from dataclasses import dataclass
 from importlib import metadata
 from typing import Any
 
-from aiohttp.client import ClientError, ClientResponseError, ClientSession
-from aiohttp.hdrs import METH_GET
-from async_timeout import timeout
+import aiohttp
+import async_timeout
+from aiohttp import hdrs
 from yarl import URL
 
 from .exceptions import P1MonitorConnectionError, P1MonitorError
@@ -22,7 +23,7 @@ class P1Monitor:
 
     host: str
     request_timeout: float = 10.0
-    session: ClientSession | None = None
+    session: aiohttp.ClientSession | None = None
 
     _close_session: bool = False
 
@@ -30,7 +31,7 @@ class P1Monitor:
         self,
         uri: str,
         *,
-        method: str = METH_GET,
+        method: str = hdrs.METH_GET,
         params: Mapping[str, Any] | None = None,
     ) -> Any:
         """Handle a request to a P1 Monitor device.
@@ -58,11 +59,11 @@ class P1Monitor:
         }
 
         if self.session is None:
-            self.session = ClientSession()
+            self.session = aiohttp.ClientSession()
             self._close_session = True
 
         try:
-            async with timeout(self.request_timeout):
+            async with async_timeout.timeout(self.request_timeout):
                 response = await self.session.request(
                     method,
                     url,
@@ -74,7 +75,7 @@ class P1Monitor:
             raise P1MonitorConnectionError(
                 "Timeout occurred while connecting to P1 Monitor device"
             ) from exception
-        except (ClientError, ClientResponseError) as exception:
+        except (aiohttp.ClientError, socket.gaierror) as exception:
             raise P1MonitorConnectionError(
                 "Error occurred while communicating with P1 Monitor device"
             ) from exception
