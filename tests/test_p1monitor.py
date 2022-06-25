@@ -1,4 +1,5 @@
 """Basic tests for the P1Monitor device."""
+# pylint: disable=protected-access
 import asyncio
 from unittest.mock import patch
 
@@ -27,7 +28,7 @@ async def test__json_request(aresponses: ResponsesMockServer) -> None:
     )
     async with aiohttp.ClientSession() as session:
         p1monitor = P1Monitor("example.com", session=session)
-        await p1monitor.request("test")
+        await p1monitor._request("test")
         await p1monitor.close()
 
 
@@ -45,7 +46,7 @@ async def test_internal_session(aresponses: ResponsesMockServer) -> None:
         ),
     )
     async with P1Monitor("example.com") as p1monitor:
-        await p1monitor.request("test")
+        await p1monitor._request("test")
 
 
 @pytest.mark.asyncio
@@ -63,7 +64,7 @@ async def test_timeout(aresponses: ResponsesMockServer) -> None:
     async with aiohttp.ClientSession() as session:
         client = P1Monitor(host="example.com", session=session, request_timeout=0.1)
         with pytest.raises(P1MonitorConnectionError):
-            assert await client.request("test")
+            assert await client._request("test")
 
 
 @pytest.mark.asyncio
@@ -85,7 +86,7 @@ async def test_content_type(aresponses: ResponsesMockServer) -> None:
             session=session,
         )
         with pytest.raises(P1MonitorError):
-            assert await client.request("test")
+            assert await client._request("test")
 
 
 @pytest.mark.asyncio
@@ -96,7 +97,7 @@ async def test_client_error() -> None:
         with patch.object(
             session, "request", side_effect=aiohttp.ClientError
         ), pytest.raises(P1MonitorConnectionError):
-            assert await client.request("test")
+            assert await client._request("test")
 
 
 @pytest.mark.asyncio
@@ -113,7 +114,7 @@ async def test_http_error401(aresponses: ResponsesMockServer, status: int) -> No
     async with aiohttp.ClientSession() as session:
         client = P1Monitor(host="example.com", session=session)
         with pytest.raises(P1MonitorConnectionError):
-            assert await client.request("test")
+            assert await client._request("test")
 
 
 @pytest.mark.asyncio
@@ -129,7 +130,7 @@ async def test_http_error400(aresponses: ResponsesMockServer) -> None:
     async with aiohttp.ClientSession() as session:
         client = P1Monitor(host="example.com", session=session)
         with pytest.raises(P1MonitorError):
-            assert await client.request("test")
+            assert await client._request("test")
 
 
 @pytest.mark.asyncio
@@ -148,7 +149,7 @@ async def test_http_error500(aresponses: ResponsesMockServer) -> None:
     async with aiohttp.ClientSession() as session:
         client = P1Monitor(host="example.com", session=session)
         with pytest.raises(P1MonitorError):
-            assert await client.request("test")
+            assert await client._request("test")
 
 
 @pytest.mark.asyncio
@@ -167,4 +168,4 @@ async def test_no_success(aresponses: ResponsesMockServer) -> None:
     async with aiohttp.ClientSession() as session:
         client = P1Monitor(host="example.com", session=session)
         with pytest.raises(P1MonitorError):
-            assert await client.request("test")
+            assert await client._request("test")

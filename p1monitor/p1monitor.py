@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import json
 import socket
 from collections.abc import Mapping
 from dataclasses import dataclass
@@ -27,7 +28,7 @@ class P1Monitor:
 
     _close_session: bool = False
 
-    async def request(
+    async def _request(
         self,
         uri: str,
         *,
@@ -88,8 +89,7 @@ class P1Monitor:
                 {"Content-Type": content_type, "response": text},
             )
 
-        response_data: dict[str, Any] = await response.json(content_type=None)
-        return response_data
+        return json.loads(await response.text())
 
     async def smartmeter(self) -> SmartMeter:
         """Get the latest values from you smart meter.
@@ -97,7 +97,7 @@ class P1Monitor:
         Returns:
             A SmartMeter data object from the P1 Monitor API.
         """
-        data = await self.request(
+        data = await self._request(
             "v1/smartmeter", params={"json": "object", "limit": 1}
         )
         return SmartMeter.from_dict(data)
@@ -108,7 +108,7 @@ class P1Monitor:
         Returns:
             A Settings data object from the P1 Monitor API.
         """
-        data = await self.request("v1/configuration", params={"json": "object"})
+        data = await self._request("v1/configuration", params={"json": "object"})
         return Settings.from_dict(data)
 
     async def phases(self) -> Phases:
@@ -117,7 +117,7 @@ class P1Monitor:
         Returns:
             A Phases data object from the P1 Monitor API.
         """
-        data = await self.request("v1/status", params={"json": "object"})
+        data = await self._request("v1/status", params={"json": "object"})
         return Phases.from_dict(data)
 
     async def watermeter(self) -> WaterMeter:
@@ -126,7 +126,7 @@ class P1Monitor:
         Returns:
             A WaterMeter data object from the P1 Monitor API.
         """
-        data = await self.request(
+        data = await self._request(
             "v2/watermeter/day", params={"json": "object", "limit": 1}
         )
         return WaterMeter.from_dict(data)
