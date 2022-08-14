@@ -7,3 +7,7 @@ class P1MonitorError(Exception):
 
 class P1MonitorConnectionError(P1MonitorError):
     """P1 Monitor connection exception."""
+
+
+class P1MonitorNoDataError(P1MonitorError):
+    """P1 Monitor no data exception."""
