@@ -14,7 +14,7 @@ import async_timeout
 from aiohttp import hdrs
 from yarl import URL
 
-from .exceptions import P1MonitorConnectionError, P1MonitorError
+from .exceptions import P1MonitorConnectionError, P1MonitorError, P1MonitorNoDataError
 from .models import Phases, Settings, SmartMeter, WaterMeter
 
 
@@ -125,10 +125,15 @@ class P1Monitor:
 
         Returns:
             A WaterMeter data object from the P1 Monitor API.
+
+        Raises:
+            P1MonitorNoDataError: No data was received from the P1 Monitor API.
         """
         data = await self._request(
             "v2/watermeter/day", params={"json": "object", "limit": 1}
         )
+        if data == []:
+            raise P1MonitorNoDataError("No data received from P1 Monitor")
         return WaterMeter.from_dict(data)
 
     async def close(self) -> None:
