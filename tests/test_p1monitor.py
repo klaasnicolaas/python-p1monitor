@@ -14,7 +14,7 @@ from . import load_fixtures
 
 
 @pytest.mark.asyncio
-async def test__json_request(aresponses: ResponsesMockServer) -> None:
+async def test_json_request(aresponses: ResponsesMockServer) -> None:
     """Test JSON response is handled correctly."""
     aresponses.add(
         "example.com",
@@ -118,7 +118,7 @@ async def test_http_error401(aresponses: ResponsesMockServer, status: int) -> No
 
 
 @pytest.mark.asyncio
-async def test_http_error400(aresponses: ResponsesMockServer) -> None:
+async def test_http_error404(aresponses: ResponsesMockServer) -> None:
     """Test HTTP 404 response handling."""
     aresponses.add(
         "example.com",
