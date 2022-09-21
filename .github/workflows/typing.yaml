@@ -11,6 +11,7 @@ jobs:
   mypy:
     name: mypy on Python ${{ matrix.python }}
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     strategy:
       matrix:
         python: ["3.9", "3.10"]
