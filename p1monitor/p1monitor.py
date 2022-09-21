@@ -128,10 +128,18 @@ class P1Monitor:
 
         Raises:
             P1MonitorNoDataError: No data was received from the P1 Monitor API.
+            error: Any type of error from the client response error handling.
         """
-        data = await self._request(
-            "v2/watermeter/day", params={"json": "object", "limit": 1}
-        )
+        try:
+            data = await self._request(
+                "v2/watermeter/day", params={"json": "object", "limit": 1}
+            )
+        except aiohttp.ClientResponseError as error:
+            if error.status == 404:
+                raise P1MonitorNoDataError(
+                    "No watermeter is connected to P1 Monitor"
+                ) from error
+            raise error
         if data == []:
             raise P1MonitorNoDataError("No data received from P1 Monitor")
         return WaterMeter.from_dict(data)
