@@ -44,7 +44,9 @@ async def main():
     """Show example on getting P1 Monitor data."""
     async with P1Monitor(host="example_host") as client:
         smartmeter = await client.smartmeter()
+        watermeter = await client.watermeter()
         print(smartmeter)
+        print(watermeter)
 
 
 if __name__ == "__main__":
