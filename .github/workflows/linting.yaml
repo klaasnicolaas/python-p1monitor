@@ -8,6 +8,7 @@ jobs:
   precommit:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     strategy:
       matrix:
         include:
