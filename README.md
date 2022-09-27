@@ -8,10 +8,10 @@
 [![License][license-shield]](LICENSE)
 
 [![GitHub Activity][commits-shield]][commits-url]
-[![Forks][forks-shield]][forks-url]
+[![PyPi Downloads][downloads-shield]][downloads-url]
+[![GitHub Last Commit][last-commit-shield]][commits-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![GitHub Last Commit][last-commit-shield]][commits-url]
 
 [![Code Quality][code-quality-shield]][code-quality]
 [![Maintainability][maintainability-shield]][maintainability-url]
@@ -167,8 +167,8 @@ SOFTWARE.
 [commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/main
 [codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/main/graph/badge.svg?token=G4FIVHJVZR
 [codecov-url]: https://codecov.io/gh/klaasnicolaas/python-p1monitor
-[forks-shield]: https://img.shields.io/github/forks/klaasnicolaas/python-p1monitor.svg
-[forks-url]: https://github.com/klaasnicolaas/python-p1monitor/network/members
+[downloads-shield]: https://img.shields.io/pypi/dm/p1monitor
+[downloads-url]: https://pypistats.org/packages/p1monitor
 [issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/python-p1monitor.svg
 [issues-url]: https://github.com/klaasnicolaas/python-p1monitor/issues
 [license-shield]: https://img.shields.io/github/license/klaasnicolaas/python-p1monitor.svg
