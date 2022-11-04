@@ -71,6 +71,8 @@ There is a lot of data that you can read via the API:
 - Power Produced phases L1/2/3
 
 ### WaterMeter
+> **_NOTE:_**  WaterMeter is only available when you run version 0.9.14 or higher.
+
 - Day Consumption (liters)
 - Total Consumption (m3)
 - Day Pulse count

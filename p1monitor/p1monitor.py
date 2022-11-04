@@ -72,11 +72,16 @@ class P1Monitor:
                     headers=headers,
                 )
                 response.raise_for_status()
+
         except asyncio.TimeoutError as exception:
             raise P1MonitorConnectionError(
                 "Timeout occurred while connecting to P1 Monitor device"
             ) from exception
         except (aiohttp.ClientError, socket.gaierror) as exception:
+            if "watermeter" in uri and response.status == 404:
+                raise P1MonitorConnectionError(
+                    "No water meter is connected to P1 Monitor device"
+                ) from exception
             raise P1MonitorConnectionError(
                 "Error occurred while communicating with P1 Monitor device"
             ) from exception
@@ -128,18 +133,10 @@ class P1Monitor:
 
         Raises:
             P1MonitorNoDataError: No data was received from the P1 Monitor API.
-            error: Any type of error from the client response error handling.
         """
-        try:
-            data = await self._request(
-                "v2/watermeter/day", params={"json": "object", "limit": 1}
-            )
-        except aiohttp.ClientResponseError as error:
-            if error.status == 404:
-                raise P1MonitorNoDataError(
-                    "No watermeter is connected to P1 Monitor"
-                ) from error
-            raise error
+        data = await self._request(
+            "v2/watermeter/day", params={"json": "object", "limit": 1}
+        )
         if data == []:
             raise P1MonitorNoDataError("No data received from P1 Monitor")
         return WaterMeter.from_dict(data)
