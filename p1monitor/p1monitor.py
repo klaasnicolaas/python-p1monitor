@@ -72,11 +72,16 @@ class P1Monitor:
                     headers=headers,
                 )
                 response.raise_for_status()
+
         except asyncio.TimeoutError as exception:
             raise P1MonitorConnectionError(
                 "Timeout occurred while connecting to P1 Monitor device"
             ) from exception
         except (aiohttp.ClientError, socket.gaierror) as exception:
+            if "watermeter" in uri and response.status == 404:
+                raise P1MonitorConnectionError(
+                    "No water meter is connected to P1 Monitor device"
+                ) from exception
             raise P1MonitorConnectionError(
                 "Error occurred while communicating with P1 Monitor device"
             ) from exception

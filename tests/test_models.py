@@ -5,6 +5,7 @@ from aresponses import ResponsesMockServer
 
 from p1monitor import (
     P1Monitor,
+    P1MonitorConnectionError,
     P1MonitorNoDataError,
     Phases,
     Settings,
@@ -91,7 +92,7 @@ async def test_watermeter(aresponses: ResponsesMockServer) -> None:
 
 
 @pytest.mark.asyncio
-async def test_no_watermeter_data(aresponses: ResponsesMockServer) -> None:
+async def test_no_watermeter_data_new(aresponses: ResponsesMockServer) -> None:
     """Test no WaterMeter data from P1 Monitor device."""
     aresponses.add(
         "example.com",
@@ -107,6 +108,26 @@ async def test_no_watermeter_data(aresponses: ResponsesMockServer) -> None:
     async with aiohttp.ClientSession() as session:
         client = P1Monitor(host="example.com", session=session)
         with pytest.raises(P1MonitorNoDataError):
+            watermeter: WaterMeter = await client.watermeter()
+            assert not watermeter
+
+
+@pytest.mark.asyncio
+async def test_no_watermeter_data_old(aresponses: ResponsesMockServer) -> None:
+    """Test no WaterMeter data from P1 Monitor device."""
+    aresponses.add(
+        "example.com",
+        "/api/v2/watermeter/day",
+        "GET",
+        aresponses.Response(
+            status=404,
+            headers={"Content-Type": "application/json; charset=utf-8"},
+        ),
+    )
+
+    async with aiohttp.ClientSession() as session:
+        client = P1Monitor(host="example.com", session=session)
+        with pytest.raises(P1MonitorConnectionError):
             watermeter: WaterMeter = await client.watermeter()
             assert not watermeter
 
