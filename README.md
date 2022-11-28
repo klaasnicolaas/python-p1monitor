@@ -1,4 +1,5 @@
-## Python - P1 Monitor API Client
+<!-- Banner -->
+![alt Banner of the P1 Monitor package](https://raw.githubusercontent.com/klaasnicolaas/python-p1monitor/main/assets/header_p1monitor-min.png)
 
 <!-- PROJECT SHIELDS -->
 [![GitHub Release][releases-shield]][releases]
