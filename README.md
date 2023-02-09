@@ -46,8 +46,12 @@ async def main():
     async with P1Monitor(host="example_host") as client:
         smartmeter = await client.smartmeter()
         watermeter = await client.watermeter()
+        settings = await client.settings()
+        phases = await client.phases()
         print(smartmeter)
         print(watermeter)
+        print(settings)
+        print(phases)
 
 
 if __name__ == "__main__":

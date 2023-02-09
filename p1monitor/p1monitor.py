@@ -2,20 +2,21 @@
 from __future__ import annotations
 
 import asyncio
-import json
 import socket
-from collections.abc import Mapping
 from dataclasses import dataclass
 from importlib import metadata
-from typing import Any
+from typing import TYPE_CHECKING, Any, cast
 
-import aiohttp
 import async_timeout
-from aiohttp import hdrs
+from aiohttp import ClientError, ClientSession
+from aiohttp.hdrs import METH_GET
 from yarl import URL
 
 from .exceptions import P1MonitorConnectionError, P1MonitorError, P1MonitorNoDataError
 from .models import Phases, Settings, SmartMeter, WaterMeter
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping
 
 
 @dataclass
@@ -24,7 +25,7 @@ class P1Monitor:
 
     host: str
     request_timeout: float = 10.0
-    session: aiohttp.ClientSession | None = None
+    session: ClientSession | None = None
 
     _close_session: bool = False
 
@@ -32,7 +33,7 @@ class P1Monitor:
         self,
         uri: str,
         *,
-        method: str = hdrs.METH_GET,
+        method: str = METH_GET,
         params: Mapping[str, Any] | None = None,
     ) -> Any:
         """Handle a request to a P1 Monitor device.
@@ -42,11 +43,13 @@ class P1Monitor:
             method: HTTP Method to use.
             params: Extra options to improve or limit the response.
 
-        Returns:
+        Returns
+        -------
             A Python dictionary (JSON decoded) with the response from
             the P1 Monitor API.
 
-        Raises:
+        Raises
+        ------
             P1MonitorConnectionError: An error occurred while communicating
                 with the P1 Monitor.
             P1MonitorError: Received an unexpected response from the P1 Monitor API.
@@ -60,7 +63,7 @@ class P1Monitor:
         }
 
         if self.session is None:
-            self.session = aiohttp.ClientSession()
+            self.session = ClientSession()
             self._close_session = True
 
         try:
@@ -74,43 +77,50 @@ class P1Monitor:
                 response.raise_for_status()
 
         except asyncio.TimeoutError as exception:
+            msg = "Timeout occurred while connecting to P1 Monitor device"
             raise P1MonitorConnectionError(
-                "Timeout occurred while connecting to P1 Monitor device"
+                msg,
             ) from exception
-        except (aiohttp.ClientError, socket.gaierror) as exception:
+        except (ClientError, socket.gaierror) as exception:
             if "watermeter" in uri and response.status == 404:
+                msg = "No water meter is connected to P1 Monitor device"
                 raise P1MonitorConnectionError(
-                    "No water meter is connected to P1 Monitor device"
+                    msg,
                 ) from exception
+            msg = "Error occurred while communicating with P1 Monitor device"
             raise P1MonitorConnectionError(
-                "Error occurred while communicating with P1 Monitor device"
+                msg,
             ) from exception
 
         content_type = response.headers.get("Content-Type", "")
         if "application/json" not in content_type:
             text = await response.text()
+            msg = "Unexpected response from the P1 Monitor device"
             raise P1MonitorError(
-                "Unexpected response from the P1 Monitor device",
+                msg,
                 {"Content-Type": content_type, "response": text},
             )
 
-        return json.loads(await response.text())
+        return cast(dict[str, Any], await response.json())
 
     async def smartmeter(self) -> SmartMeter:
         """Get the latest values from you smart meter.
 
-        Returns:
+        Returns
+        -------
             A SmartMeter data object from the P1 Monitor API.
         """
         data = await self._request(
-            "v1/smartmeter", params={"json": "object", "limit": 1}
+            "v1/smartmeter",
+            params={"json": "object", "limit": 1},
         )
         return SmartMeter.from_dict(data)
 
     async def settings(self) -> Settings:
         """Receive the set price values for energy and gas.
 
-        Returns:
+        Returns
+        -------
             A Settings data object from the P1 Monitor API.
         """
         data = await self._request("v1/configuration", params={"json": "object"})
@@ -119,7 +129,8 @@ class P1Monitor:
     async def phases(self) -> Phases:
         """Receive data from all phases on your smart meter.
 
-        Returns:
+        Returns
+        -------
             A Phases data object from the P1 Monitor API.
         """
         data = await self._request("v1/status", params={"json": "object"})
@@ -128,17 +139,21 @@ class P1Monitor:
     async def watermeter(self) -> WaterMeter:
         """Get the latest values from you water meter.
 
-        Returns:
+        Returns
+        -------
             A WaterMeter data object from the P1 Monitor API.
 
-        Raises:
+        Raises
+        ------
             P1MonitorNoDataError: No data was received from the P1 Monitor API.
         """
         data = await self._request(
-            "v2/watermeter/day", params={"json": "object", "limit": 1}
+            "v2/watermeter/day",
+            params={"json": "object", "limit": 1},
         )
         if data == []:
-            raise P1MonitorNoDataError("No data received from P1 Monitor")
+            msg = "No data received from P1 Monitor"
+            raise P1MonitorNoDataError(msg)
         return WaterMeter.from_dict(data)
 
     async def close(self) -> None:
@@ -149,7 +164,8 @@ class P1Monitor:
     async def __aenter__(self) -> P1Monitor:
         """Async enter.
 
-        Returns:
+        Returns
+        -------
             The P1 Monitor object.
         """
         return self
@@ -158,6 +174,7 @@ class P1Monitor:
         """Async exit.
 
         Args:
+        ----
             _exc_info: Exec type.
         """
         await self.close()

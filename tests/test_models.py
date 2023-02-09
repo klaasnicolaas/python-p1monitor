@@ -1,8 +1,7 @@
 """Test the models."""
-import aiohttp
 import pytest
+from aiohttp import ClientSession
 from aresponses import ResponsesMockServer
-
 from p1monitor import (
     P1Monitor,
     P1MonitorConnectionError,
@@ -16,11 +15,10 @@ from p1monitor import (
 from . import load_fixtures
 
 
-@pytest.mark.asyncio
 async def test_smartmeter(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - SmartMeter object."""
     aresponses.add(
-        "example.com",
+        "127.0.0.1",
         "/api/v1/smartmeter",
         "GET",
         aresponses.Response(
@@ -30,8 +28,8 @@ async def test_smartmeter(aresponses: ResponsesMockServer) -> None:
         ),
     )
 
-    async with aiohttp.ClientSession() as session:
-        client = P1Monitor(host="example.com", session=session)
+    async with ClientSession() as session:
+        client = P1Monitor(host="127.0.0.1", session=session)
         smartmeter: SmartMeter = await client.smartmeter()
         assert smartmeter
         assert smartmeter.gas_consumption == 2289.967
@@ -44,11 +42,10 @@ async def test_smartmeter(aresponses: ResponsesMockServer) -> None:
         assert smartmeter.energy_tariff_period == "low"
 
 
-@pytest.mark.asyncio
 async def test_phases(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - Phases object."""
     aresponses.add(
-        "example.com",
+        "127.0.0.1",
         "/api/v1/status",
         "GET",
         aresponses.Response(
@@ -58,21 +55,20 @@ async def test_phases(aresponses: ResponsesMockServer) -> None:
         ),
     )
 
-    async with aiohttp.ClientSession() as session:
-        client = P1Monitor(host="example.com", session=session)
+    async with ClientSession() as session:
+        client = P1Monitor(host="127.0.0.1", session=session)
         phases: Phases = await client.phases()
         assert phases
-        assert phases.current_phase_l1 == "4.0"
+        assert phases.current_phase_l1 == 4.0
         assert phases.power_consumed_phase_l1 == 863
         assert phases.power_produced_phase_l1 == 0
-        assert phases.voltage_phase_l1 == "229.0"
+        assert phases.voltage_phase_l1 == 229.0
 
 
-@pytest.mark.asyncio
 async def test_watermeter(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - WaterMeter object."""
     aresponses.add(
-        "example.com",
+        "127.0.0.1",
         "/api/v2/watermeter/day",
         "GET",
         aresponses.Response(
@@ -82,8 +78,8 @@ async def test_watermeter(aresponses: ResponsesMockServer) -> None:
         ),
     )
 
-    async with aiohttp.ClientSession() as session:
-        client = P1Monitor(host="example.com", session=session)
+    async with ClientSession() as session:
+        client = P1Monitor(host="127.0.0.1", session=session)
         watermeter: WaterMeter = await client.watermeter()
         assert watermeter
         assert watermeter.consumption_day == 128
@@ -91,11 +87,10 @@ async def test_watermeter(aresponses: ResponsesMockServer) -> None:
         assert watermeter.pulse_count == 128
 
 
-@pytest.mark.asyncio
 async def test_no_watermeter_data_new(aresponses: ResponsesMockServer) -> None:
     """Test no WaterMeter data from P1 Monitor device."""
     aresponses.add(
-        "example.com",
+        "127.0.0.1",
         "/api/v2/watermeter/day",
         "GET",
         aresponses.Response(
@@ -105,18 +100,16 @@ async def test_no_watermeter_data_new(aresponses: ResponsesMockServer) -> None:
         ),
     )
 
-    async with aiohttp.ClientSession() as session:
-        client = P1Monitor(host="example.com", session=session)
+    async with ClientSession() as session:
+        client = P1Monitor(host="127.0.0.1", session=session)
         with pytest.raises(P1MonitorNoDataError):
-            watermeter: WaterMeter = await client.watermeter()
-            assert not watermeter
+            await client.watermeter()
 
 
-@pytest.mark.asyncio
 async def test_no_watermeter_data_old(aresponses: ResponsesMockServer) -> None:
     """Test no WaterMeter data from P1 Monitor device."""
     aresponses.add(
-        "example.com",
+        "127.0.0.1",
         "/api/v2/watermeter/day",
         "GET",
         aresponses.Response(
@@ -125,18 +118,16 @@ async def test_no_watermeter_data_old(aresponses: ResponsesMockServer) -> None:
         ),
     )
 
-    async with aiohttp.ClientSession() as session:
-        client = P1Monitor(host="example.com", session=session)
+    async with ClientSession() as session:
+        client = P1Monitor(host="127.0.0.1", session=session)
         with pytest.raises(P1MonitorConnectionError):
-            watermeter: WaterMeter = await client.watermeter()
-            assert not watermeter
+            await client.watermeter()
 
 
-@pytest.mark.asyncio
 async def test_settings(aresponses: ResponsesMockServer) -> None:
     """Test request from a P1 Monitor device - Settings object."""
     aresponses.add(
-        "example.com",
+        "127.0.0.1",
         "/api/v1/configuration",
         "GET",
         aresponses.Response(
@@ -146,11 +137,12 @@ async def test_settings(aresponses: ResponsesMockServer) -> None:
         ),
     )
 
-    async with aiohttp.ClientSession() as session:
-        client = P1Monitor(host="example.com", session=session)
+    async with ClientSession() as session:
+        client = P1Monitor(host="127.0.0.1", session=session)
         settings: Settings = await client.settings()
         assert settings
-        assert settings.energy_consumption_price_high == "0.24388"
-        assert settings.energy_consumption_price_low == "0.22311"
-        assert settings.energy_production_price_high == "0.24388"
-        assert settings.energy_production_price_low == "0.22311"
+        assert settings.gas_consumption_price == 0.86687
+        assert settings.energy_consumption_price_high == 0.24388
+        assert settings.energy_consumption_price_low == 0.22311
+        assert settings.energy_production_price_high == 0.24388
+        assert settings.energy_production_price_low == 0.22311
