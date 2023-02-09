@@ -3,16 +3,21 @@
 
 import asyncio
 
-from p1monitor import P1Monitor
+from p1monitor import P1Monitor, WaterMeter
 
 
 async def main() -> None:
     """Show example on getting P1 Monitor data."""
-    async with P1Monitor(host="example") as client:
-        watermeter = await client.watermeter()
+    async with P1Monitor(host="127.0.0.1") as client:
+        watermeter: WaterMeter = await client.watermeter()
+
         print(watermeter)
+        print()
+        print("--- P1 Monitor | WaterMeter ---")
+        print(f"Consumption Day: {watermeter.consumption_day}")
+        print(f"Consumption Total: {watermeter.consumption_total}")
+        print(f"Pulse Count: {watermeter.pulse_count}")
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    asyncio.run(main())

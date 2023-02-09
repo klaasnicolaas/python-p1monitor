@@ -35,7 +35,8 @@ class SmartMeter:
         Args:
             data: The data from the P1 Monitor API.
 
-        Returns:
+        Returns
+        -------
             A SmartMeter object.
         """
 
@@ -45,7 +46,8 @@ class SmartMeter:
             Args:
                 tariff: The provided tariff code from the API.
 
-            Returns:
+            Returns
+            -------
                 The energy tariff period class.
             """
             if tariff == "P":
@@ -84,16 +86,16 @@ class Settings:
         Args:
             data: The data from the P1 Monitor API.
 
-        Returns:
+        Returns
+        -------
             A Settings object.
         """
-
         return Settings(
-            gas_consumption_price=search(15, data, "configuration"),
-            energy_consumption_price_low=search(1, data, "configuration"),
-            energy_consumption_price_high=search(2, data, "configuration"),
-            energy_production_price_low=search(3, data, "configuration"),
-            energy_production_price_high=search(4, data, "configuration"),
+            gas_consumption_price=search(15, data, "conf"),
+            energy_consumption_price_low=search(1, data, "conf"),
+            energy_consumption_price_high=search(2, data, "conf"),
+            energy_production_price_low=search(3, data, "conf"),
+            energy_production_price_high=search(4, data, "conf"),
         )
 
 
@@ -124,24 +126,10 @@ class Phases:
         Args:
             data: The data from the P1 Monitor API.
 
-        Returns:
+        Returns
+        -------
             A Phases object.
         """
-
-        def convert(value: int) -> int | None:
-            """Convert values from kW to W.
-
-            Args:
-                value: The current value.
-
-            Returns:
-                Value in Watt (W).
-            """
-            if value is not None:
-                value = int(float(value) * 1000)
-                return value
-            return None
-
         return Phases(
             voltage_phase_l1=search(103, data, "status"),
             voltage_phase_l2=search(104, data, "status"),
@@ -173,10 +161,10 @@ class WaterMeter:
         Args:
             data: The data from the P1 Monitor API.
 
-        Returns:
+        Returns
+        -------
             A WaterMeter object.
         """
-
         data = data[0]
         return WaterMeter(
             consumption_day=data.get("WATERMETER_CONSUMPTION_LITER"),
@@ -185,7 +173,7 @@ class WaterMeter:
         )
 
 
-def search(position: int, data: Any, service: str) -> Any:
+def search(position: int, data: Any, service: str) -> float:
     """Find the correct value in the json data file.
 
     Args:
@@ -193,12 +181,27 @@ def search(position: int, data: Any, service: str) -> Any:
         data: The JSON list which is requested from the API.
         service: Type of dataclass.
 
-    Returns:
+    Returns
+    -------
         The value that corresponds to the specified position.
     """
+    value: float
     for i in data:
-        if service == "configuration" and i["CONFIGURATION_ID"] == position:
-            return i["PARAMETER"]
-        if service == "status" and i["STATUS_ID"] == position:
-            return i["STATUS"]
-    return None
+        if service == "conf" and i["CONFIGURATION_ID"] == position:
+            value = float(i["PARAMETER"])
+        elif service == "status" and i["STATUS_ID"] == position:
+            value = float(i["STATUS"])
+    return value
+
+
+def convert(value: float) -> int:
+    """Convert values from kW to W.
+
+    Args:
+        value: The current value.
+
+    Returns
+    -------
+        Value in Watt (W).
+    """
+    return int(float(value) * 1000)
