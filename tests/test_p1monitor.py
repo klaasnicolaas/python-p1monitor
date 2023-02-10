@@ -6,6 +6,7 @@ from unittest.mock import patch
 import pytest
 from aiohttp import ClientError, ClientResponse, ClientSession
 from aresponses import Response, ResponsesMockServer
+
 from p1monitor import P1Monitor
 from p1monitor.exceptions import P1MonitorConnectionError, P1MonitorError
 

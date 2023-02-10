@@ -2,6 +2,7 @@
 import pytest
 from aiohttp import ClientSession
 from aresponses import ResponsesMockServer
+
 from p1monitor import (
     P1Monitor,
     P1MonitorConnectionError,
