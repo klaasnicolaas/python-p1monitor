@@ -39,16 +39,17 @@ class P1Monitor:
         """Handle a request to a P1 Monitor device.
 
         Args:
+        ----
             uri: Request URI, without '/api/', for example, 'status'
             method: HTTP Method to use.
             params: Extra options to improve or limit the response.
 
-        Returns
+        Returns:
         -------
             A Python dictionary (JSON decoded) with the response from
             the P1 Monitor API.
 
-        Raises
+        Raises:
         ------
             P1MonitorConnectionError: An error occurred while communicating
                 with the P1 Monitor.

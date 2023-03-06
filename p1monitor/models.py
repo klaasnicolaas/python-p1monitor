@@ -33,9 +33,10 @@ class SmartMeter:
         """Return SmartMeter object from the P1 Monitor API response.
 
         Args:
+        ----
             data: The data from the P1 Monitor API.
 
-        Returns
+        Returns:
         -------
             A SmartMeter object.
         """
@@ -44,9 +45,10 @@ class SmartMeter:
             """Return API energy_tariff information.
 
             Args:
+            ----
                 tariff: The provided tariff code from the API.
 
-            Returns
+            Returns:
             -------
                 The energy tariff period class.
             """
@@ -84,9 +86,10 @@ class Settings:
         """Return Settings object from the P1 Monitor API response.
 
         Args:
+        ----
             data: The data from the P1 Monitor API.
 
-        Returns
+        Returns:
         -------
             A Settings object.
         """
@@ -124,9 +127,10 @@ class Phases:
         """Return Phases object from the P1 Monitor API response.
 
         Args:
+        ----
             data: The data from the P1 Monitor API.
 
-        Returns
+        Returns:
         -------
             A Phases object.
         """
@@ -159,9 +163,10 @@ class WaterMeter:
         """Return WaterMeter object from the P1 Monitor API response.
 
         Args:
+        ----
             data: The data from the P1 Monitor API.
 
-        Returns
+        Returns:
         -------
             A WaterMeter object.
         """
@@ -177,11 +182,12 @@ def search(position: int, data: Any, service: str) -> float:
     """Find the correct value in the json data file.
 
     Args:
+    ----
         position: The position ID number.
         data: The JSON list which is requested from the API.
         service: Type of dataclass.
 
-    Returns
+    Returns:
     -------
         The value that corresponds to the specified position.
     """
@@ -198,9 +204,10 @@ def convert(value: float) -> int:
     """Convert values from kW to W.
 
     Args:
+    ----
         value: The current value.
 
-    Returns
+    Returns:
     -------
         Value in Watt (W).
     """
