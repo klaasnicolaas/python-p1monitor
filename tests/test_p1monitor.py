@@ -49,6 +49,7 @@ async def test_internal_session(aresponses: ResponsesMockServer) -> None:
 
 async def test_timeout(aresponses: ResponsesMockServer) -> None:
     """Test request timeout from P1 Monitor."""
+
     # Faking a timeout by sleeping
     async def reponse_handler(_: ClientResponse) -> Response:
         await asyncio.sleep(0.2)
