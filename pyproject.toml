@@ -36,7 +36,7 @@ yarl = ">=1.6.0"
 Changelog = "https://github.com/klaasnicolaas/python-p1monitor/releases"
 
 [tool.poetry.group.dev.dependencies]
-ruff = ">=0.0.244,<0.0.259"
+ruff = ">=0.0.244,<0.0.260"
 aresponses = "^2.1.6"
 black = ">=22.12,<24.0"
 blacken-docs = "^1.13.0"
