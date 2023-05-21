@@ -15,6 +15,9 @@ jobs:
   release:
     name: Releasing to PyPi
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v3.5.2
@@ -41,11 +44,7 @@ jobs:
       - name: 🏗 Build package
         run: poetry build --no-interaction
       - name: 🚀 Publish package to PyPi
-        env:
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-        run: |
-          poetry config pypi-token.pypi "${PYPI_TOKEN}"
-          poetry publish --no-interaction
+        uses: pypa/gh-action-pypi-publish@release/v1
 
   tweet:
     name: 🐦 Tweet the release
