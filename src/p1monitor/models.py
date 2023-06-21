@@ -9,6 +9,8 @@ from typing import Any
 class EnergyTariff(str, Enum):
     """Enumeration representing the rate period."""
 
+    __slots__ = ()
+
     LOW = "low"
     HIGH = "high"
 
