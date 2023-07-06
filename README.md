@@ -11,8 +11,7 @@
 [![GitHub Activity][commits-shield]][commits-url]
 [![PyPi Downloads][downloads-shield]][downloads-url]
 [![GitHub Last Commit][last-commit-shield]][commits-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
+[![Open in Dev Containers][devcontainer-shield]][devcontainer]
 
 [![Code Quality][code-quality-shield]][code-quality]
 [![Build Status][build-shield]][build-url]
@@ -99,8 +98,14 @@ Thank you for being involved! :heart_eyes:
 
 ## Setting up development environment
 
-This Python project is fully managed using the [Poetry][poetry] dependency
-manager.
+The simplest way to begin is by utilizing the [Dev Container][devcontainer]
+feature of Visual Studio Code or by opening a CodeSpace directly on GitHub.
+By clicking the button below you immediately start a Dev Container in Visual Studio Code.
+
+[![Open in Dev Containers][devcontainer-shield]][devcontainer]
+
+This Python project relies on [Poetry][poetry] as its dependency manager,
+providing comprehensive management and control over project dependencies.
 
 You need at least:
 
@@ -176,10 +181,10 @@ SOFTWARE.
 [commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/main
 [codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/main/graph/badge.svg?token=G4FIVHJVZR
 [codecov-url]: https://codecov.io/gh/klaasnicolaas/python-p1monitor
+[devcontainer-shield]: https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode
+[devcontainer]: https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/klaasnicolaas/python-p1monitor
 [downloads-shield]: https://img.shields.io/pypi/dm/p1monitor
 [downloads-url]: https://pypistats.org/packages/p1monitor
-[issues-shield]: https://img.shields.io/github/issues/klaasnicolaas/python-p1monitor.svg
-[issues-url]: https://github.com/klaasnicolaas/python-p1monitor/issues
 [license-shield]: https://img.shields.io/github/license/klaasnicolaas/python-p1monitor.svg
 [last-commit-shield]: https://img.shields.io/github/last-commit/klaasnicolaas/python-p1monitor.svg
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg
@@ -192,8 +197,6 @@ SOFTWARE.
 [typing-url]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/typing.yaml
 [releases-shield]: https://img.shields.io/github/release/klaasnicolaas/python-p1monitor.svg
 [releases]: https://github.com/klaasnicolaas/python-p1monitor/releases
-[stars-shield]: https://img.shields.io/github/stars/klaasnicolaas/python-p1monitor.svg
-[stars-url]: https://github.com/klaasnicolaas/python-p1monitor/stargazers
 
 [p1-monitor]: https://www.ztatz.nl/p1-monitor
 [home-assistant]: https://www.home-assistant.io
