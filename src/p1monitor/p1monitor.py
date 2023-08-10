@@ -18,6 +18,8 @@ from .models import Phases, Settings, SmartMeter, WaterMeter
 if TYPE_CHECKING:
     from collections.abc import Mapping
 
+    from typing_extensions import Self
+
 
 @dataclass
 class P1Monitor:
@@ -162,7 +164,7 @@ class P1Monitor:
         if self.session and self._close_session:
             await self.session.close()
 
-    async def __aenter__(self) -> P1Monitor:
+    async def __aenter__(self) -> Self:
         """Async enter.
 
         Returns
@@ -171,7 +173,7 @@ class P1Monitor:
         """
         return self
 
-    async def __aexit__(self, *_exc_info: Any) -> None:
+    async def __aexit__(self, *_exc_info: object) -> None:
         """Async exit.
 
         Args:
