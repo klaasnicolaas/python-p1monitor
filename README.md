@@ -62,6 +62,7 @@ if __name__ == "__main__":
 There is a lot of data that you can read via the API:
 
 ### SmartMeter
+
 - Gas Consumption
 - Power Consumption / Production
 - Energy Consumption Low/High
@@ -69,19 +70,23 @@ There is a lot of data that you can read via the API:
 - Energy Tariff Period
 
 ### Phases
+
 - Voltage phases L1/2/3
 - Current Phases L1/2/3
 - Power consumed phases L1/2/3
 - Power Produced phases L1/2/3
 
 ### WaterMeter
-> **_NOTE:_**  WaterMeter is only available when you run version 1.1.0 or higher due the use of the new v2 API url.
+
+> [!IMPORTANT]
+> WaterMeter is only available when you run version 1.1.0 or higher due the use of the new v2 API url.
 
 - Day Consumption (liters)
 - Total Consumption (m3)
 - Day Pulse count
 
 ### Settings
+
 - Gas Consumption Price
 - Energy Consumption Price Low/High
 - Energy Production Price Low/High
