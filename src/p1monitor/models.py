@@ -41,6 +41,7 @@ class SmartMeter:
         Returns:
         -------
             A SmartMeter object.
+
         """
 
         def energy_tariff(tariff: str) -> EnergyTariff:
@@ -53,6 +54,7 @@ class SmartMeter:
             Returns:
             -------
                 The energy tariff period class.
+
             """
             if tariff == "P":
                 return EnergyTariff.HIGH
@@ -94,6 +96,7 @@ class Settings:
         Returns:
         -------
             A Settings object.
+
         """
         return Settings(
             gas_consumption_price=search(15, data, "conf"),
@@ -135,6 +138,7 @@ class Phases:
         Returns:
         -------
             A Phases object.
+
         """
         return Phases(
             voltage_phase_l1=search(103, data, "status"),
@@ -171,6 +175,7 @@ class WaterMeter:
         Returns:
         -------
             A WaterMeter object.
+
         """
         data = data[0]
         return WaterMeter(
@@ -192,6 +197,7 @@ def search(position: int, data: Any, service: str) -> float:
     Returns:
     -------
         The value that corresponds to the specified position.
+
     """
     value: float
     for i in data:
@@ -212,5 +218,6 @@ def convert(value: float) -> int:
     Returns:
     -------
         Value in Watt (W).
+
     """
     return int(float(value) * 1000)
