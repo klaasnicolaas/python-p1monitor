@@ -5,7 +5,7 @@ import asyncio
 import socket
 from dataclasses import dataclass
 from importlib import metadata
-from typing import Any, Mapping, Self, cast
+from typing import Any, Self, cast
 
 from aiohttp import ClientError, ClientSession
 from aiohttp.hdrs import METH_GET
@@ -30,7 +30,7 @@ class P1Monitor:
         uri: str,
         *,
         method: str = METH_GET,
-        params: Mapping[str, Any] | None = None,
+        params: dict[str, Any] | None = None,
     ) -> Any:
         """Handle a request to a P1 Monitor device.
 
@@ -50,6 +50,7 @@ class P1Monitor:
             P1MonitorConnectionError: An error occurred while communicating
                 with the P1 Monitor.
             P1MonitorError: Received an unexpected response from the P1 Monitor API.
+
         """
         version = metadata.version(__package__)
         url = URL.build(scheme="http", host=self.host, path="/api/").join(URL(uri))
@@ -81,13 +82,9 @@ class P1Monitor:
         except (ClientError, socket.gaierror) as exception:
             if "watermeter" in uri and response.status == 404:
                 msg = "No water meter is connected to P1 Monitor device"
-                raise P1MonitorConnectionError(
-                    msg,
-                ) from exception
+                raise P1MonitorConnectionError(msg) from exception
             msg = "Error occurred while communicating with P1 Monitor device"
-            raise P1MonitorConnectionError(
-                msg,
-            ) from exception
+            raise P1MonitorConnectionError(msg) from exception
 
         content_type = response.headers.get("Content-Type", "")
         if "application/json" not in content_type:
@@ -106,6 +103,7 @@ class P1Monitor:
         Returns
         -------
             A SmartMeter data object from the P1 Monitor API.
+
         """
         data = await self._request(
             "v1/smartmeter",
@@ -119,6 +117,7 @@ class P1Monitor:
         Returns
         -------
             A Settings data object from the P1 Monitor API.
+
         """
         data = await self._request("v1/configuration", params={"json": "object"})
         return Settings.from_dict(data)
@@ -129,6 +128,7 @@ class P1Monitor:
         Returns
         -------
             A Phases data object from the P1 Monitor API.
+
         """
         data = await self._request("v1/status", params={"json": "object"})
         return Phases.from_dict(data)
@@ -143,6 +143,7 @@ class P1Monitor:
         Raises
         ------
             P1MonitorNoDataError: No data was received from the P1 Monitor API.
+
         """
         data = await self._request(
             "v2/watermeter/day",
@@ -164,6 +165,7 @@ class P1Monitor:
         Returns
         -------
             The P1 Monitor object.
+
         """
         return self
 
@@ -173,5 +175,6 @@ class P1Monitor:
         Args:
         ----
             _exc_info: Exec type.
+
         """
         await self.close()
