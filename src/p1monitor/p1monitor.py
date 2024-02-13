@@ -74,7 +74,7 @@ class P1Monitor:
                 )
                 response.raise_for_status()
 
-        except asyncio.TimeoutError as exception:
+        except TimeoutError as exception:
             msg = "Timeout occurred while connecting to P1 Monitor device"
             raise P1MonitorConnectionError(
                 msg,
