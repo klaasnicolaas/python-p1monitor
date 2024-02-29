@@ -1,4 +1,5 @@
 """Asynchronous Python client for the P1 Monitor API."""
+
 from __future__ import annotations
 
 import asyncio

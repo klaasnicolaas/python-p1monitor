@@ -1,4 +1,5 @@
 """Basic tests for the P1Monitor device."""
+
 # pylint: disable=protected-access
 import asyncio
 from unittest.mock import patch
@@ -91,11 +92,14 @@ async def test_client_error() -> None:
     """Test request client error from P1 Monitor."""
     async with ClientSession() as session:
         client = P1Monitor(host="127.0.0.1", session=session)
-        with patch.object(
-            session,
-            "request",
-            side_effect=ClientError,
-        ), pytest.raises(P1MonitorConnectionError):
+        with (
+            patch.object(
+                session,
+                "request",
+                side_effect=ClientError,
+            ),
+            pytest.raises(P1MonitorConnectionError),
+        ):
             assert await client._request("test")
 
 

@@ -1,4 +1,5 @@
 """Asynchronous Python client for the P1 Monitor."""
+
 from pathlib import Path
 
 
