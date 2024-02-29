@@ -1,4 +1,5 @@
 """Test the models."""
+
 import pytest
 from aiohttp import ClientSession
 from aresponses import ResponsesMockServer
