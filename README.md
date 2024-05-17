@@ -13,10 +13,8 @@
 [![GitHub Last Commit][last-commit-shield]][commits-url]
 [![Open in Dev Containers][devcontainer-shield]][devcontainer]
 
-[![Code Quality][code-quality-shield]][code-quality]
 [![Build Status][build-shield]][build-url]
 [![Typing Status][typing-shield]][typing-url]
-
 [![Maintainability][maintainability-shield]][maintainability-url]
 [![Code Coverage][codecov-shield]][codecov-url]
 
@@ -180,8 +178,6 @@ SOFTWARE.
 <!-- MARKDOWN LINKS & IMAGES -->
 [build-shield]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/tests.yaml/badge.svg
 [build-url]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/tests.yaml
-[code-quality-shield]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/codeql.yaml/badge.svg
-[code-quality]: https://github.com/klaasnicolaas/python-p1monitor/actions/workflows/codeql.yaml
 [commits-shield]: https://img.shields.io/github/commit-activity/y/klaasnicolaas/python-p1monitor.svg
 [commits-url]: https://github.com/klaasnicolaas/python-p1monitor/commits/main
 [codecov-shield]: https://codecov.io/gh/klaasnicolaas/python-p1monitor/branch/main/graph/badge.svg?token=G4FIVHJVZR
