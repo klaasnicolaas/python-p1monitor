@@ -15,6 +15,8 @@ from yarl import URL
 from .exceptions import P1MonitorConnectionError, P1MonitorError, P1MonitorNoDataError
 from .models import Phases, Settings, SmartMeter, WaterMeter
 
+VERSION = metadata.version(__package__)
+
 
 @dataclass
 class P1Monitor:
@@ -53,11 +55,10 @@ class P1Monitor:
             P1MonitorError: Received an unexpected response from the P1 Monitor API.
 
         """
-        version = metadata.version(__package__)
         url = URL.build(scheme="http", host=self.host, path="/api/").join(URL(uri))
 
         headers = {
-            "User-Agent": f"PythonP1Monitor/{version}",
+            "User-Agent": f"PythonP1Monitor/{VERSION}",
             "Accept": "application/json, text/plain, */*",
         }
 
