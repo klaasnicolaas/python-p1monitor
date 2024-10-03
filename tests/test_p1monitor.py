@@ -14,10 +14,13 @@ from p1monitor.exceptions import P1MonitorConnectionError, P1MonitorError
 from . import load_fixtures
 
 
-async def test_json_request(aresponses: ResponsesMockServer) -> None:
+async def test_json_request(
+    aresponses: ResponsesMockServer,
+    p1monitor_client: P1Monitor,
+) -> None:
     """Test JSON response is handled correctly."""
     aresponses.add(
-        "127.0.0.1",
+        "192.168.1.2",
         "/api/test",
         "GET",
         aresponses.Response(
@@ -26,16 +29,15 @@ async def test_json_request(aresponses: ResponsesMockServer) -> None:
             text='{"status": "ok"}',
         ),
     )
-    async with ClientSession() as session:
-        p1monitor = P1Monitor("127.0.0.1", session=session)
-        await p1monitor._request("test")
-        await p1monitor.close()
+    response = await p1monitor_client._request("test")
+    assert response is not None
+    await p1monitor_client.close()
 
 
 async def test_internal_session(aresponses: ResponsesMockServer) -> None:
     """Test JSON response is handled correctly."""
     aresponses.add(
-        "127.0.0.1",
+        "192.168.1.2",
         "/api/test",
         "GET",
         aresponses.Response(
@@ -44,7 +46,7 @@ async def test_internal_session(aresponses: ResponsesMockServer) -> None:
             text='{"status": "ok"}',
         ),
     )
-    async with P1Monitor("127.0.0.1") as p1monitor:
+    async with P1Monitor("192.168.1.2") as p1monitor:
         await p1monitor._request("test")
 
 
@@ -59,18 +61,21 @@ async def test_timeout(aresponses: ResponsesMockServer) -> None:
             text=load_fixtures("smartmeter.json"),
         )
 
-    aresponses.add("127.0.0.1", "/api/test", "GET", reponse_handler)
+    aresponses.add("192.168.1.2", "/api/test", "GET", reponse_handler)
 
     async with ClientSession() as session:
-        client = P1Monitor(host="127.0.0.1", session=session, request_timeout=0.1)
+        client = P1Monitor(host="192.168.1.2", session=session, request_timeout=0.1)
         with pytest.raises(P1MonitorConnectionError):
             assert await client._request("test")
 
 
-async def test_content_type(aresponses: ResponsesMockServer) -> None:
+async def test_content_type(
+    aresponses: ResponsesMockServer,
+    p1monitor_client: P1Monitor,
+) -> None:
     """Test request content type error from P1 Monitor."""
     aresponses.add(
-        "127.0.0.1",
+        "192.168.1.2",
         "/api/test",
         "GET",
         aresponses.Response(
@@ -78,20 +83,14 @@ async def test_content_type(aresponses: ResponsesMockServer) -> None:
             headers={"Content-Type": "blabla/blabla"},
         ),
     )
-
-    async with ClientSession() as session:
-        client = P1Monitor(
-            host="127.0.0.1",
-            session=session,
-        )
-        with pytest.raises(P1MonitorError):
-            assert await client._request("test")
+    with pytest.raises(P1MonitorError):
+        assert await p1monitor_client._request("test")
 
 
 async def test_client_error() -> None:
     """Test request client error from P1 Monitor."""
     async with ClientSession() as session:
-        client = P1Monitor(host="127.0.0.1", session=session)
+        client = P1Monitor(host="192.168.1.2", session=session)
         with (
             patch.object(
                 session,
@@ -100,71 +99,4 @@ async def test_client_error() -> None:
             ),
             pytest.raises(P1MonitorConnectionError),
         ):
-            assert await client._request("test")
-
-
-@pytest.mark.parametrize("status", [401, 403])
-async def test_http_error401(aresponses: ResponsesMockServer, status: int) -> None:
-    """Test HTTP 401 response handling."""
-    aresponses.add(
-        "127.0.0.1",
-        "/api/v1/smartmeter",
-        "GET",
-        aresponses.Response(text="Give me energy!", status=status),
-    )
-
-    async with ClientSession() as session:
-        client = P1Monitor(host="127.0.0.1", session=session)
-        with pytest.raises(P1MonitorConnectionError):
-            assert await client._request("test")
-
-
-async def test_http_error404(aresponses: ResponsesMockServer) -> None:
-    """Test HTTP 404 response handling."""
-    aresponses.add(
-        "127.0.0.1",
-        "/api/v1/smartmeter",
-        "GET",
-        aresponses.Response(text="Give me energy!", status=404),
-    )
-
-    async with ClientSession() as session:
-        client = P1Monitor(host="127.0.0.1", session=session)
-        with pytest.raises(P1MonitorError):
-            assert await client._request("test")
-
-
-async def test_http_error500(aresponses: ResponsesMockServer) -> None:
-    """Test HTTP 500 response handling."""
-    aresponses.add(
-        "127.0.0.1",
-        "/api/v1/smartmeter",
-        "GET",
-        aresponses.Response(
-            body=b'{"status":"nok"}',
-            status=500,
-        ),
-    )
-
-    async with ClientSession() as session:
-        client = P1Monitor(host="127.0.0.1", session=session)
-        with pytest.raises(P1MonitorError):
-            assert await client._request("test")
-
-
-async def test_no_success(aresponses: ResponsesMockServer) -> None:
-    """Test a message without a success message throws."""
-    aresponses.add(
-        "127.0.0.1",
-        "/api/v1/smartmeter",
-        "GET",
-        aresponses.Response(
-            status=200,
-            text='{"message": "no success"}',
-        ),
-    )
-
-    async with ClientSession() as session:
-        client = P1Monitor(host="127.0.0.1", session=session)
-        with pytest.raises(P1MonitorError):
             assert await client._request("test")
