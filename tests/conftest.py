@@ -13,6 +13,6 @@ async def client() -> AsyncGenerator[P1Monitor, None]:
     """Return a P1Monitor client."""
     async with (
         ClientSession() as session,
-        P1Monitor(host="192.168.1.2", port=80, session=session) as p1monitor_client,
+        P1Monitor(host="192.168.1.2", session=session) as p1monitor_client,
     ):
         yield p1monitor_client
