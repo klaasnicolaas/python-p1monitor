@@ -34,6 +34,24 @@ async def test_json_request(
     await p1monitor_client.close()
 
 
+async def test_different_port(aresponses: ResponsesMockServer) -> None:
+    """Test different port is handled correctly."""
+    aresponses.add(
+        "192.168.1.2:84",
+        "/api/test",
+        "GET",
+        aresponses.Response(
+            status=200,
+            headers={"Content-Type": "application/json"},
+            text='{"status": "ok"}',
+        ),
+    )
+    async with ClientSession() as session:
+        p1monitor = P1Monitor("192.168.1.2", port=84, session=session)
+        await p1monitor._request("test")
+        await p1monitor.close()
+
+
 async def test_internal_session(aresponses: ResponsesMockServer) -> None:
     """Test JSON response is handled correctly."""
     aresponses.add(
