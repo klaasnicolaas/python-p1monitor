@@ -40,7 +40,7 @@ from p1monitor import P1Monitor
 
 async def main():
     """Show example on getting P1 Monitor data."""
-    async with P1Monitor(host="example_host", port=80) as client:
+    async with P1Monitor(host="192.168.1.2", port=80) as client:
         smartmeter = await client.smartmeter()
         watermeter = await client.watermeter()
         settings = await client.settings()
