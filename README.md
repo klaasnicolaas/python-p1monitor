@@ -40,7 +40,7 @@ from p1monitor import P1Monitor
 
 async def main():
     """Show example on getting P1 Monitor data."""
-    async with P1Monitor(host="example_host") as client:
+    async with P1Monitor(host="192.168.1.2", port=80) as client:
         smartmeter = await client.smartmeter()
         watermeter = await client.watermeter()
         settings = await client.settings()
@@ -54,6 +54,17 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 ```
+
+More examples can be found in the [examples folder](./examples/).
+
+## Class: `P1Monitor`
+
+This is the main class that you will use to interact with the P1 Monitor.
+
+| Parameter | Required | Description                                  |
+| --------- | -------- | -------------------------------------------- |
+| `host`    | `True`   | The IP address of the P1 Monitor.            |
+| `port`    | `False`  | The port of the P1 Monitor. Default is `80`. |
 
 ## Data
 

@@ -23,6 +23,7 @@ class P1Monitor:
     """Main class for handling connections with the P1 Monitor API."""
 
     host: str
+    port: int = 80
     request_timeout: float = 10.0
     session: ClientSession | None = None
 
@@ -55,7 +56,12 @@ class P1Monitor:
             P1MonitorError: Received an unexpected response from the P1 Monitor API.
 
         """
-        url = URL.build(scheme="http", host=self.host, path="/api/").join(URL(uri))
+        url = URL.build(
+            scheme="http",
+            host=self.host,
+            port=self.port,
+            path="/api/",
+        ).join(URL(uri))
 
         headers = {
             "User-Agent": f"PythonP1Monitor/{VERSION}",
