@@ -59,7 +59,7 @@ class P1Monitor:
         url = URL.build(
             scheme="http",
             host=self.host,
-            port=self.port,
+            port=int(self.port),
             path="/api/",
         ).join(URL(uri))
 
