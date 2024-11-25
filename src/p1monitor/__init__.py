@@ -6,11 +6,11 @@ from .p1monitor import P1Monitor
 
 __all__ = [
     "P1Monitor",
-    "P1MonitorError",
     "P1MonitorConnectionError",
+    "P1MonitorError",
     "P1MonitorNoDataError",
-    "SmartMeter",
-    "Settings",
     "Phases",
+    "Settings",
+    "SmartMeter",
     "WaterMeter",
 ]
