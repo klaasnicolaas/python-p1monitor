@@ -1,14 +1,12 @@
-[tool.poetry]
+[project]
 name = "p1monitor"
 version = "0.0.0"
 description = "Asynchronous Python client for the P1 Monitor"
-authors = ["Klaas Schoute <hello@student-techlife.com>"]
-maintainers = ["Klaas Schoute <hello@student-techlife.com>"]
+authors = [{ name="Klaas Schoute", email="<hello@student-techlife.com>"}]
+maintainers = [{name="Klaas Schoute", email="<hello@student-techlife.com>"}]
 license = "MIT"
+requires-python = ">=3.11"
 readme = "README.md"
-homepage = "https://github.com/klaasnicolaas/python-p1monitor"
-repository = "https://github.com/klaasnicolaas/python-p1monitor"
-documentation = "https://github.com/klaasnicolaas/python-p1monitor"
 keywords = ["p1", "monitor", "power", "energy", "api", "async", "client"]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
@@ -22,6 +20,7 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+dynamic = ["dependencies"]
 packages = [
   { include = "p1monitor", from = "src"},
 ]
@@ -31,7 +30,10 @@ aiohttp = ">=3.0.0"
 python = "^3.11"
 yarl = ">=1.6.0"
 
-[tool.poetry.urls]
+[project.urls]
+homepage = "https://github.com/klaasnicolaas/python-p1monitor"
+repository = "https://github.com/klaasnicolaas/python-p1monitor"
+documentation = "https://github.com/klaasnicolaas/python-p1monitor"
 "Bug Tracker" = "https://github.com/klaasnicolaas/python-p1monitor/issues"
 Changelog = "https://github.com/klaasnicolaas/python-p1monitor/releases"
 
@@ -129,7 +131,6 @@ lint.ignore = [
 
   # Conflicts with the Ruff formatter
   "COM812",
-  "ISC001",
 ]
 
 
