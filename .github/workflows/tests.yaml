@@ -17,6 +17,9 @@ jobs:
     strategy:
       matrix:
         python: ["3.12", "3.13", "3.14"]
+    permissions:
+      contents: read
+      actions: read
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v5.0.0
@@ -46,6 +49,9 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     needs: pytest
+    permissions:
+      contents: read
+      actions: read
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v5.0.0
