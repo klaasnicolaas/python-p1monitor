@@ -3,11 +3,11 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any
 
 
-class EnergyTariff(str, Enum):
+class EnergyTariff(StrEnum):
     """Enumeration representing the rate period."""
 
     __slots__ = ()
