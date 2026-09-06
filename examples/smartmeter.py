@@ -1,4 +1,3 @@
-# pylint: disable=W0621
 """Asynchronous Python client for the P1 Monitor API."""
 
 import asyncio

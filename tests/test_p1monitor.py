@@ -1,6 +1,5 @@
 """Basic tests for the P1Monitor device."""
 
-# pylint: disable=protected-access
 import asyncio
 from unittest.mock import patch
 

@@ -1,6 +1,5 @@
 """Exceptions tests for the P1Monitor device."""
 
-# pylint: disable=protected-access
 import pytest
 from aresponses import ResponsesMockServer
 

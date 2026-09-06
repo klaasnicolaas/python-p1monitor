@@ -15,7 +15,7 @@ from yarl import URL
 from .exceptions import P1MonitorConnectionError, P1MonitorError, P1MonitorNoDataError
 from .models import Phases, Settings, SmartMeter, WaterMeter
 
-VERSION = metadata.version(__package__)
+VERSION = metadata.version("p1monitor")
 
 
 @dataclass
