@@ -11,24 +11,29 @@ on:
 env:
   DEFAULT_PYTHON: "3.12"
 
+permissions:
+  contents: read
+
 jobs:
   release:
     name: Releasing to PyPi
     runs-on: ubuntu-latest
     environment: release
     permissions:
+      contents: read
       id-token: write
     steps:
       - name: ⤵️ Check out code from GitHub
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: 🏗 Set up Poetry
         run: pipx install poetry
       - name: 🏗 Set up Python ${{ env.DEFAULT_PYTHON }}
         id: python
-        uses: actions/setup-python@v7.0.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
-          cache: "poetry"
       - name: 🏗 Install workflow dependencies
         run: |
           poetry config virtualenvs.create true
@@ -36,34 +41,35 @@ jobs:
       - name: 🏗 Install dependencies
         run: poetry install --no-interaction
       - name: 🏗 Set package version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          version="${{ github.event.release.tag_name }}"
+          version="${RELEASE_TAG}"
           version="${version,,}"
           version="${version#v}"
           poetry version --no-interaction "${version}"
       - name: 🏗 Build package
         run: poetry build --no-interaction
       - name: 🚀 Publish package to PyPi
-        uses: pypa/gh-action-pypi-publish@v1.14.2
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
 
-  tweet:
-    name: 🐦 Tweet the release
-    needs: release
+  bluesky:
+    name: 🦋 Post to Bluesky
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    environment: release
+    needs: release
+    permissions: {}
+    env:
+      BLUESKY_IDENTIFIER: ${{ secrets.BLUESKY_IDENTIFIER }}
+      BLUESKY_PASSWORD: ${{ secrets.BLUESKY_PASSWORD }}
     steps:
-      - uses: Eomm/why-don-t-you-tweet@v2.0.0
+      - name: 🦋 Post to Bluesky
+        if: env.BLUESKY_IDENTIFIER != '' && env.BLUESKY_PASSWORD != ''
+        uses: myConsciousness/bluesky-post@96827d0a9604cb228b11b3095f6961196efba4a0 # v5.0.0
         with:
-          # GitHub event payload
-          # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#release
-          tweet-message: |
-            ⬆️ ${{ github.event.release.tag_name }} of ${{ github.event.repository.name }} just released 🎉 #update @klaasnicolaas #python #package #P1monitor #p1 #ztatz #release #bot #assistant
+          text: |
+            ⬆️ ${{ github.event.release.tag_name }} of ${{ github.event.repository.name }} just released 🎉 #update @klaasnicolaas.nl #python #package #P1monitor #p1 #ztatz #release
 
             Check out the release notes here: ${{ github.event.release.html_url }}
-        env:
-          # Get your tokens from https://developer.twitter.com/apps
-          TWITTER_CONSUMER_API_KEY: ${{ secrets.TWITTER_CONSUMER_API_KEY }}
-          TWITTER_CONSUMER_API_SECRET: ${{ secrets.TWITTER_CONSUMER_API_SECRET }}
-          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
-          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          identifier: ${{ secrets.BLUESKY_IDENTIFIER }}
+          password: ${{ secrets.BLUESKY_PASSWORD }}

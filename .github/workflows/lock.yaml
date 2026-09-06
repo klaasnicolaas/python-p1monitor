@@ -7,6 +7,9 @@ on:
     - cron: "0 3 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   inactivity-lock:
     name: Lock issues and PRs
@@ -16,7 +19,7 @@ jobs:
       pull-requests: write
     steps:
       - name: 🔒 Lock closed issues and PRs
-        uses: klaasnicolaas/action-inactivity-lock@v2.0.1
+        uses: klaasnicolaas/action-inactivity-lock@0ee41c932b9b4e52b8333c6ede0c69403681ebe2 # v2.0.1
         with:
           days-inactive-issues: 30
           lock-reason-issues: ""
