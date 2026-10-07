@@ -25,14 +25,6 @@ dependencies = [
   "yarl>=1.6.0",
 ]
 
-[tool.poetry]
-packages = [
-  { include = "p1monitor", from = "src"},
-]
-
-[tool.poetry.dependencies]
-python = "^3.12"
-
 [project.urls]
 homepage = "https://github.com/klaasnicolaas/python-p1monitor"
 repository = "https://github.com/klaasnicolaas/python-p1monitor"
@@ -40,21 +32,23 @@ documentation = "https://github.com/klaasnicolaas/python-p1monitor"
 "Bug Tracker" = "https://github.com/klaasnicolaas/python-p1monitor/issues"
 Changelog = "https://github.com/klaasnicolaas/python-p1monitor/releases"
 
-[tool.poetry.group.dev.dependencies]
-aresponses = "3.0.0"
-codespell = "2.4.3"
-covdefaults = "2.3.0"
-coverage = {version = "7.16.2", extras = ["toml"]}
-pre-commit-hooks = "6.0.0"
-prek = "0.5.5"
-pytest = "9.1.1"
-pytest-asyncio = "1.4.0"
-pytest-cov = "7.1.0"
-ruff = "0.16.10"
-syrupy = "6.1.1"
-ty = "0.0.85"
-yamllint = "1.38.0"
-zizmor = "1.30.1"
+[dependency-groups]
+dev = [
+  "aresponses==3.0.0",
+  "codespell==2.4.3",
+  "covdefaults==2.3.0",
+  "coverage[toml]==7.16.2",
+  "pre-commit-hooks==6.0.0",
+  "prek==0.5.5",
+  "pytest==9.1.1",
+  "pytest-asyncio==1.4.0",
+  "pytest-cov==7.1.0",
+  "ruff==0.16.10",
+  "syrupy==6.1.1",
+  "ty==0.0.85",
+  "yamllint==1.38.0",
+  "zizmor==1.30.1",
+]
 
 [tool.coverage.run]
 plugins = ["covdefaults"]
@@ -99,5 +93,5 @@ known-first-party = ["p1monitor"]
 max-complexity = 25
 
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=2.2.0"]
+build-backend = "uv_build"
+requires = ["uv_build>=0.12.13,<0.13"]
