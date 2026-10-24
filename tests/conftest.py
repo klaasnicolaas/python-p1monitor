@@ -9,7 +9,7 @@ from p1monitor import P1Monitor
 
 
 @pytest.fixture(name="p1monitor_client")
-async def client() -> AsyncGenerator[P1Monitor, None]:
+async def client() -> AsyncGenerator[P1Monitor]:
     """Return a P1Monitor client."""
     async with (
         ClientSession() as session,
